@@ -4,6 +4,7 @@ import angular from 'angular';
 const todoFactory = angular.module('app.todoFactory', [])
 
 .factory('todoFactory', ($http) => {
+  
   function getTasks($scope) {
     $http.get('/todos').success(response => {
       $scope.todos = response.todos;

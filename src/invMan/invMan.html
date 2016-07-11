@@ -1,0 +1,39 @@
+<div class="container">
+	<h1>Inventory Manager</h1>
+	<p>Here will the site be built.</p>
+
+	<button class="btn"
+		ng-click="importDatabase('lol')">
+		nothing right now
+	</button>
+
+	<pre>Model: {{asyncSelected | json}}</pre>
+	<input type="text"
+		ng-model="asyncSelected"  
+		placeholder="Cardname" 
+		uib-typeahead="address for address in getLocation($viewValue)"
+		typeahead-loading="loadingCards" 
+		typeahead-no-results="noResults" 
+		class="form-control"/>
+	<i ng-show="loadingCards" 
+		class="glyphicon glyphicon-refresh">
+	</i>
+	<div ng-show="noResults">
+		<i class="glyphicon glyphicon-remove"></i> No results found.
+	</div>
+
+	<table class="table table-striped">
+		<tr>
+			<th>Set Name</th>
+			<th>Code</th>
+		</tr>
+		<tr ng-repeat="set in invMan">
+			<td>
+			{{set.name}}
+			</td>
+			<td>
+			{{set.code}}
+			</td>
+		</tr>
+	</table>
+</div>

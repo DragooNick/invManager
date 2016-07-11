@@ -1,9 +1,11 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import todoFactory from 'factories/todo-factory';
+import invManFactory from 'factories/invMan-factory';
 import todosController from 'todos/todos';
+import invController from 'invMan/invMan';
 
-const app = angular.module('app', [uiRouter, todoFactory.name]);
+const app = angular.module('app', [uiRouter, todoFactory.name, invManFactory.name]);
 
 app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
   $urlRouterProvider.otherwise('/');
@@ -17,6 +19,11 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
     .state('about', {
       url: '/about',
       template: require('about/about.html')
+    })
+    .state('invMan', {
+      url: '/invMan',
+      template: require('invMan/invMan.html'),
+      controller: invController
     })
     
     $locationProvider.html5Mode(true);
