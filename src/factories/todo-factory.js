@@ -14,6 +14,7 @@ const todoFactory = angular.module('app.todoFactory', [])
   function createTask($scope, params) {
     if(!$scope.createTaskInput)
       return;
+    console.log($scope);
     $http.post('/todos', {
       task: $scope.createTaskInput,
       isCompleted: false,

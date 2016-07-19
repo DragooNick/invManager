@@ -9,10 +9,18 @@ router.get('/', function(req, res) {
  //    if (err) { consol.log(err); }
  //    res.send('Test saved');
  //  });
+ 	console.log(req);
 	 Test.find(function(err, results) {
 	 	if(err) { console.log(err); }
-//	 	console.log(results);
 	 	res.send({sets: results});
+	 });
+});
+
+router.put('/sets', function(req, res) {
+	 var test = new Test(req.body);
+	 test.save(function(err, results) {
+	 	if(err) { console.log(err); }
+	 	res.send("Done!");
 	 });
 });
 

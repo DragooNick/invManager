@@ -1,4 +1,6 @@
-<div class="container">
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
+
+    <div class="container">
 	<h1>Inventory Manager</h1>
 	<p>Here will the site be built.</p>
 
@@ -7,33 +9,64 @@
 		nothing right now
 	</button>
 
-	<pre>Model: {{asyncSelected | json}}</pre>
+	<pre>Location: {{asyncSelected | json}}</pre>
 	<input type="text"
 		ng-model="asyncSelected"  
-		placeholder="Cardname" 
+		placeholder="Location" 
 		uib-typeahead="address for address in getLocation($viewValue)"
-		typeahead-loading="loadingCards" 
+		typeahead-loading="loadingLocation" 
 		typeahead-no-results="noResults" 
 		class="form-control"/>
-	<i ng-show="loadingCards" 
+	<i ng-show="loadingLocation" 
 		class="glyphicon glyphicon-refresh">
 	</i>
 	<div ng-show="noResults">
 		<i class="glyphicon glyphicon-remove"></i> No results found.
 	</div>
 
+	<pre>Card: {{asyncCard | json}}</pre>
+	<input type="text"
+		ng-model="asyncCard"  
+		placeholder="Cardname" 
+		uib-typeahead="queryName for queryName in getSomething($viewValue)"
+		typeahead-loading="loadingCards" 
+		typeahead-no-results="noCardResults" 
+		class="form-control"/>
+	<i ng-show="loadingCards" 
+		class="glyphicon glyphicon-refresh">
+	</i>
+	<div ng-show="noCardResults">
+		<i class="glyphicon glyphicon-remove"></i> No results found.
+	</div>
+
+    <pre>Model: {{selected | json}}</pre>
+    <input type="text" ng-model="selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
+
 	<table class="table table-striped">
 		<tr>
 			<th>Set Name</th>
 			<th>Code</th>
+			<th>Button</th>
 		</tr>
 		<tr ng-repeat="set in invMan">
 			<td>
-			{{set.name}}
+				{{set.name}}
 			</td>
 			<td>
-			{{set.code}}
+				{{set.code}}
 			</td>
+			<td>
+				<button ng-click="makeSetCollection(set)">{{set.code}}</button>
+			</td>
+			<td ng-repeat="card in set.cards">
+				{{card.name}}
+			</td>
+		</tr>
+		<tr>
+			<th>Card Name</th>
+		</tr>
+		<tr >
+			
 		</tr>
 	</table>
 </div>
