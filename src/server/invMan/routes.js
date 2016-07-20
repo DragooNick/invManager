@@ -9,7 +9,6 @@ router.get('/', function(req, res) {
  //    if (err) { consol.log(err); }
  //    res.send('Test saved');
  //  });
- 	console.log(req);
 	 Test.find(function(err, results) {
 	 	if(err) { console.log(err); }
 	 	res.send({sets: results});
