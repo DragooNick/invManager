@@ -4,6 +4,12 @@ const invManFactory = angular.module('app.invManFactory', [])
 
 .factory('invManFactory', ($http) => {
 
+	function login() {
+		$http.post('/login').success(response => {
+			
+		});
+	}
+
 	function getSets($scope) {
 		$http.get('/invMan/stuff').success(response => {
 			$scope.invMan = response.sets;
@@ -28,6 +34,7 @@ const invManFactory = angular.module('app.invManFactory', [])
 	}
 
 	return {
+		login,
 		getSets,
 		makeSetCollection,
 		getCard
