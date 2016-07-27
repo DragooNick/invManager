@@ -4,7 +4,6 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var passport = require('passport');
-var passportLocal = require('passport-local');
 var User = require('server/db/db').User;
 var routes = require('server/routes');
 

@@ -3,7 +3,7 @@ var Test = require('server/db/db').Test;
 var express = require('express');
 var router = express.Router();
 
-router.get('/', function(req, res) {
+router.get('/sets', function(req, res) {
 	// var test = new Test({name: 'Test Set', code: 'TS1'});
  //  	test.save(function(err) {
  //    if (err) { consol.log(err); }
@@ -15,12 +15,20 @@ router.get('/', function(req, res) {
 	 });
 });
 
-router.put('/sets', function(req, res) {
+router.put('/lolsets', function(req, res) {
 	 var test = new Test(req.body);
 	 test.save(function(err, results) {
 	 	if(err) { console.log(err); }
 	 	res.send("Done!");
 	 });
+});
+
+router.post('/cardSearch', function(req, res) {
+	console.log('req.body ' + req.body.name);
+	Test.find({"cards.name" : req.body.name},{"cards.$": 1}, function(err, results) {
+		if(err) { console.log(err); }
+		res.send({cards: results});
+	});
 });
 
 module.exports = router;

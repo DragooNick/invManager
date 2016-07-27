@@ -4,26 +4,9 @@
 	<h1>Inventory Manager</h1>
 	<p>Here will the site be built.</p>
 
-	<form ng-submit="login()" class="invMan__login">
-		<input type="text" 
-			name="username" 
-			placeholder="Username" />
-		<input type="password" 
-			name="password" 
-			placeholder="Password" />
-		<button ng-if="true"
-			class="btn btn-info">
-			Login
-		</button>
-		<button ng-if="true"
-			class="btn btn-danger">
-			Logout
-		</button>
-	</form>
-
-	<button class="btn"
-		ng-click="importDatabase('lol')">
-		nothing right now
+<!-- 	<button class="btn"
+		ng-click="getSets()">
+		Get Sets
 	</button>
 
 	<pre>Location: {{asyncSelected | json}}</pre>
@@ -85,5 +68,25 @@
 		<tr >
 			
 		</tr>
-	</table>
+	</table> -->
+
+	<div ng-model="cards">
+		<form ng-submit="searchCard()"
+			class="form-control">
+			<input type="text"
+				ng-model="cardSearch.card"  
+				placeholder="Card Name" 
+				class="form-control"/>
+			<button class="btn">
+				Search Card
+			</button>
+		</form>
+
+		<div ng-repeat="card in cards">
+			<div ng-repeat="printing in card.cards[0].printings">
+				http://magiccards.info/scans/en/{{printing.toLowerCase()}}/{{card.cards[0].number}}.jpg
+				<img src="http://magiccards.info/scans/en/{{printing.toLowerCase()}}/{{card.cards[0].number}}.jpg" />
+			</div>
+		</div>
+	</div>
 </div>

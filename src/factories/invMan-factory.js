@@ -4,14 +4,8 @@ const invManFactory = angular.module('app.invManFactory', [])
 
 .factory('invManFactory', ($http) => {
 
-	function login() {
-		$http.post('/login').success(response => {
-			
-		});
-	}
-
 	function getSets($scope) {
-		$http.get('/invMan/stuff').success(response => {
+		$http.get('/invMan/sets').success(response => {
 			$scope.invMan = response.sets;
 			console.log(response.sets);
 			$scope.sets = response.sets[0].cards;
@@ -21,7 +15,7 @@ const invManFactory = angular.module('app.invManFactory', [])
 
 	function makeSetCollection($scope, set) {
 		console.log(set);
-		$http.put('/invMan/stuff/sets', {
+		$http.put('/invMan/lolsets', {
 			name: set.name,
 			code: set.code
 		}).success(response => {
@@ -33,11 +27,22 @@ const invManFactory = angular.module('app.invManFactory', [])
 		
 	}
 
+	function searchCard($scope) {
+		console.log({"cards.name": $scope.cardSearch.card });
+		$http.post('/invMan/cardSearch', {
+			name : $scope.cardSearch.card
+		}).success(response => {
+			console.log(response);
+			$scope.cards = response.cards;
+			console.log($scope.cards);
+		});
+	}
+
 	return {
-		login,
 		getSets,
 		makeSetCollection,
-		getCard
+		getCard,
+		searchCard
 	};
 });
 
