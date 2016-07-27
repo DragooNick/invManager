@@ -4,7 +4,7 @@ if (module.hot) {
 }
 
 import angular from 'angular';
-import appModule from 'config';
+import appModule from 'config/config';
 import 'css/master.scss';
 
 angular.bootstrap(document, [appModule.name]);

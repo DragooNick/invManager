@@ -4,6 +4,23 @@
 	<h1>Inventory Manager</h1>
 	<p>Here will the site be built.</p>
 
+	<form ng-submit="login()" class="invMan__login">
+		<input type="text" 
+			name="username" 
+			placeholder="Username" />
+		<input type="password" 
+			name="password" 
+			placeholder="Password" />
+		<button ng-if="true"
+			class="btn btn-info">
+			Login
+		</button>
+		<button ng-if="true"
+			class="btn btn-danger">
+			Logout
+		</button>
+	</form>
+
 	<button class="btn"
 		ng-click="importDatabase('lol')">
 		nothing right now

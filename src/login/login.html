@@ -1,0 +1,75 @@
+<div class="container">
+	<form action="/lol"
+		method="GET" 
+		class="invMan__login">
+		<input type="text" 
+			name="username" 
+			placeholder="User Name"
+			ng-model="user.username" />
+		<input type="password" 
+			name="password" 
+			placeholder="Password"
+			ng-model="user.password" />
+		<button type="submit"
+			ng-if="!$rootScope.user"
+			class="btn btn-info">
+			Login
+		</button>
+		<button ng-click=""
+			ng-if="!$rootScope.user"
+			class="btn btn-info">
+			Register
+		</button>
+	</form>
+	<form >
+		<button ng-click="logout()"
+			class="btn btn-danger">
+			Logout
+		</button>
+	</form>
+	<form ng-submit="register()" 
+		class="invMan__register">
+		<input type="text" 
+			name="firstname" 
+			placeholder="First Name"
+			ng-model="user.firstname" 
+			class="form-control" />
+		<input type="text" 
+			name="lastname" 
+			placeholder="Last Name"
+			ng-model="user.lastname"
+			class="form-control" />
+		<input type="text" 
+			name="username" 
+			placeholder="User Name"
+			ng-model="user.username" 
+			class="form-control" />
+		<input type="password" 
+			name="password" 
+			placeholder="Password"
+			ng-model="user.password"
+			class="form-control" />
+		<input type="password" 
+			name="password_confirmation" 
+			placeholder="Confirm Password"
+			ng-model="user.password_confirmation"
+			class="form-control" />
+		<input type="text" 
+			name="email" 
+			placeholder="Email Address"
+			ng-model="user.email"
+			class="form-control" />	
+		<button type="submit"
+			ng-if="!$rootScope.user"
+			class="btn btn-info">
+			Register
+		</button>
+	</form>
+	<div>
+		<nav>
+			<a ui-sref="login" class="nav-link">Home</a>
+			<a ui-sref="invMan" class="nav-link">Inventory Manager</a>
+			<a ui-sref="about" class="nav-link">About</a>
+		</nav>
+	</div>
+</div>
