@@ -44,7 +44,9 @@ app.get('/', function(req, res) {
 //https://scotch.io/tutorials/easy-node-authentication-setup-and-local
 app.post('/lol', passport.authenticate('local', {
         successRedirect : '/',
-        failureRedirect : '/about'
+        successFlash: 'Welcome!',
+        failureRedirect : '/about',
+        failureFlash: true
 }));
 
 //BAD REQUEST 400
@@ -65,7 +67,7 @@ app.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-app.post('/*', function(req, res) {
+app.all('/*', function(req, res) {
   res.send('\
     <!DOCTYPE html>\
     <html>\
