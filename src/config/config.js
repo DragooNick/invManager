@@ -27,7 +27,7 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
       url: '/invMan',
       template: require('invMan/invMan.html'),
       controller: invController,
-      resolve: { loginCheck: checkLogin }
+      //resolve: { loginCheck: checkLogin }
     })
     .state('login', {
       url: '/',

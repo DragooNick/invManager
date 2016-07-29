@@ -1,28 +1,41 @@
 <div class="container">
-	<form action="/lol"
-		method="GET" 
+
+	<nav>
+		<a ui-sref="login" class="nav-link">Home</a>
+		<a ui-sref="invMan" class="nav-link">Inventory Manager</a>
+		<a ui-sref="about" class="nav-link">About</a>
+	</nav>
+
+	<div ng-model="user"
 		class="invMan__login">
-		<input type="text" 
-			name="username" 
-			placeholder="User Name"
-			ng-model="user.username" />
-		<input type="password" 
-			name="password" 
-			placeholder="Password"
-			ng-model="user.password" />
-		<button type="submit"
-			ng-if="!$rootScope.user"
-			class="btn btn-info">
-			Login
-		</button>
-	</form>
-	<form >
-		<button ng-click="logout()"
-			class="btn btn-danger">
-			Logout
-		</button>
-	</form>
-	<form ng-submit="register()" 
+		<form>
+			<input type="text" 
+				name="username" 
+				placeholder="User Name"
+				ng-model="user.username" />
+			<input type="password" 
+				name="password" 
+				placeholder="Password"
+				ng-model="user.password" />
+			<button ng-click="login()"
+				type="submit"
+				ng-if="!$rootScope.user"
+				class="btn btn-info">
+				Login
+			</button>
+			<button ng-click="logout()"
+				class="btn btn-danger">
+				Logout
+			</button>
+			<button ng-click="onRegisterClick(user)"
+				class="btn btn-danger">
+				Register
+			</button>
+		</form>
+	</div>
+
+	<form ng-submit="register()"
+		ng-show="!user.isRegistered" 
 		class="invMan__register">
 		<input type="text" 
 			name="firstname" 
@@ -60,11 +73,4 @@
 			Register
 		</button>
 	</form>
-	<div>
-		<nav>
-			<a ui-sref="login" class="nav-link">Home</a>
-			<a ui-sref="invMan" class="nav-link">Inventory Manager</a>
-			<a ui-sref="about" class="nav-link">About</a>
-		</nav>
-	</div>
 </div>

@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Test = require('server/db/db').Test;
-var User = require('server/db/db').User;
 var express = require('express');
 var router = express.Router();
 
@@ -28,24 +27,6 @@ router.post('/cardSearch', function(req, res) {
 	console.log('req.body ' + req.body.name);
 	Test.find({"cards.name" : req.body.name},{"cards.$": 1}, function(err, results) {
 		if(err) { console.log(err); }
-		res.send({cards: results});
-	});
-});
-
-router.post('/getInventory', function(req, res) {
-	console.log(req.body.username);
-	User.findOne({username: req.body.username}, function(err, results) {
-		if(err) { console.log(err); }
-		console.log(results);
-		res.send({cards: results});
-	});
-});
-
-router.post('/getDecks', function(req, res) {
-	console.log(req.body.username);
-	User.findOne({username: req.body.username}, function(err, results) {
-		if(err) { console.log(err); }
-		console.log(results);
 		res.send({cards: results});
 	});
 });

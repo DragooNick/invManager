@@ -11,17 +11,17 @@ module.exports = function(passport) {
     authCheckDone(null, {id: id, name: id});
   });
 
-  passport.use(new passportLocal.Strategy({passReqToCallback: true}, function(req, username, password, authCheckDone) {
+  passport.use(new passportLocal.Strategy({passReqToCallback: true}, function(username, password, authCheckDone) {
     console.log('localStrat Username: ' + username + ' Password: ' + password);
     User.findOne({username: username, password: password}, function(err, user) {
       console.log('searched for user');
       if(user) {
         console.log('found');
         console.log(user);
-        authCheckDone(null, user, req.flash('authMessage', "your message"));  
+        authCheckDone(null, user);  
       } else {
         console.log('none');
-        authCheckDone(null, false, req.flash('authMessage', "your message"));  
+        authCheckDone(null, false);  
       }  
     });
     // if(username === password) {

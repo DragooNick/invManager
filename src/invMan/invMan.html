@@ -4,75 +4,9 @@
 	<h1>Inventory Manager</h1>
 	<p>Here will the site be built.</p>
 
-<!-- 	<button class="btn"
-		ng-click="getSets()">
-		Get Sets
-	</button>
-
-	<pre>Location: {{asyncSelected | json}}</pre>
-	<input type="text"
-		ng-model="asyncSelected"  
-		placeholder="Location" 
-		uib-typeahead="address for address in getLocation($viewValue)"
-		typeahead-loading="loadingLocation" 
-		typeahead-no-results="noResults" 
-		class="form-control"/>
-	<i ng-show="loadingLocation" 
-		class="glyphicon glyphicon-refresh">
-	</i>
-	<div ng-show="noResults">
-		<i class="glyphicon glyphicon-remove"></i> No results found.
-	</div>
-
-	<pre>Card: {{asyncCard | json}}</pre>
-	<input type="text"
-		ng-model="asyncCard"  
-		placeholder="Cardname" 
-		uib-typeahead="queryName for queryName in getSomething($viewValue)"
-		typeahead-loading="loadingCards" 
-		typeahead-no-results="noCardResults" 
-		class="form-control"/>
-	<i ng-show="loadingCards" 
-		class="glyphicon glyphicon-refresh">
-	</i>
-	<div ng-show="noCardResults">
-		<i class="glyphicon glyphicon-remove"></i> No results found.
-	</div>
-
-    <pre>Model: {{selected | json}}</pre>
-    <input type="text" ng-model="selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
-
-	<table class="table table-striped">
-		<tr>
-			<th>Set Name</th>
-			<th>Code</th>
-			<th>Button</th>
-		</tr>
-		<tr ng-repeat="set in invMan">
-			<td>
-				{{set.name}}
-			</td>
-			<td>
-				{{set.code}}
-			</td>
-			<td>
-				<button ng-click="makeSetCollection(set)">{{set.code}}</button>
-			</td>
-			<td ng-repeat="card in set.cards">
-				{{card.name}}
-			</td>
-		</tr>
-		<tr>
-			<th>Card Name</th>
-		</tr>
-		<tr >
-			
-		</tr>
-	</table> -->
-
+	<h2>Card Search</h2>
 	<div ng-model="cards">
-		<form ng-submit="searchCard()"
-			class="form-control">
+		<form ng-submit="searchCard()">
 			<input type="text"
 				ng-model="cardSearch.card"  
 				placeholder="Card Name" 
@@ -82,11 +16,42 @@
 			</button>
 		</form>
 
-		<div ng-repeat="card in cards">
+		<div ng-repeat="card in cards" class="invMan__cards">
 			<div ng-repeat="printing in card.cards[0].printings">
-				http://magiccards.info/scans/en/{{printing.toLowerCase()}}/{{card.cards[0].number}}.jpg
-				<img src="http://magiccards.info/scans/en/{{printing.toLowerCase()}}/{{card.cards[0].number}}.jpg" />
+				<img src="http://magiccards.info/scans/en/{{printing.toLowerCase()}}/{{card.cards[0].number}}.jpg" width="224" height="320" alt="{{card.cards[0].name}}"/>
 			</div>
 		</div>
 	</div>
+
+	<h2>Inventory</h2>
+	<div ng-model="inventory">
+		<button class="btn"
+			ng-click="getInventory()">
+			Get Inventory
+		</button>
+		<table class="table">
+			<tr>
+				<td class="invMan__cards" 
+					ng-repeat="card in inventory">
+					<img src="http://magiccards.info/scans/en/{{card.printing[0].toLowerCase()}}/{{card.number}}.jpg" width="224" height="320" alt="{{card.name}}"/>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<h2>Decks</h2>
+	<div ng-model="decks">
+		<button class="btn"
+			ng-click="getDecks()">
+			Get Decks
+		</button>
+		<table class="table">
+			<tr ng-repeat="deck in decks">
+				<td class="invMan__cards" 
+					ng-repeat="card in deck.cards">
+					<img src="http://magiccards.info/scans/en/{{card.printing[0].toLowerCase()}}/{{card.number}}.jpg" width="224" height="320" alt="{{card.name}}"/>
+				</td>
+			</tr>
+		</table>
+	</div>	
 </div>
