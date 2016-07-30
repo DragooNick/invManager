@@ -26,3 +26,7 @@ rsub src/login/login.html &
 rsub src/login/login.js &
 rsub src/factories/login-factory.js &
 rsub src/server/login/routes.js &
+rsub src/admin/admin.html &
+rsub src/admin/admin.js &
+rsub src/factories/admin-factory.js &
+rsub src/server/admin/routes.js

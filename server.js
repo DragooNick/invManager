@@ -11,7 +11,7 @@ require('config/passport.js')(passport);
 
 var PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(cookieParser());
 app.use(expressSession({
   secret: process.env.SESSION_SECRET || 'invManSecret',

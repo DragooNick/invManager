@@ -3,6 +3,7 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var todosConnection = mongoose.createConnection('mongodb://localhost/todos');
 var invManConnection = mongoose.createConnection('mongodb://localhost/test');
 var userConnection = mongoose.createConnection('mongodb://localhost/users');
+var namesConnection = mongoose.createConnection('mongodb://localhost/names');
 
 var Todo = todosConnection.model('Todo', new mongoose.Schema({
   task: String,
@@ -23,6 +24,11 @@ var User = userConnection.model('User', new mongoose.Schema({
 	lastname: String
 }));
 
+var Names = userConnection.model('Names', new mongoose.Schema({
+	names: []
+}));
+
 module.exports.Todo = Todo;
 module.exports.Test = Test;
 module.exports.User = User;
+module.exports.Names = Names;

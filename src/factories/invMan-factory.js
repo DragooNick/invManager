@@ -1,4 +1,5 @@
 import angular from 'angular';
+import _ from 'lodash';
 
 const invManFactory = angular.module('app.invManFactory', [])
 
@@ -10,8 +11,8 @@ const invManFactory = angular.module('app.invManFactory', [])
 			name : $scope.cardSearch.card
 		}).success(response => {
 			console.log(response);
-			$scope.cards = response.cards;
-			console.log($scope.cards);
+			$scope.cardsFound = response.cards;
+			console.log($scope.cardsFound);
 		});
 	}
 

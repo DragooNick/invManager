@@ -1,5 +1,3 @@
-    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
-
     <div class="container">
 	<h1>Inventory Manager</h1>
 	<p>Here will the site be built.</p>
@@ -8,7 +6,8 @@
 	<div ng-model="cards">
 		<form ng-submit="searchCard()">
 			<input type="text"
-				ng-model="cardSearch.card"  
+				ng-model="cardSearch.card"
+				uib-typeahead="card for card in cards | filter:$viewValue | limitTo:9" 
 				placeholder="Card Name" 
 				class="form-control"/>
 			<button class="btn">
@@ -16,11 +15,15 @@
 			</button>
 		</form>
 
-		<div ng-repeat="card in cards" class="invMan__cards">
-			<div ng-repeat="printing in card.cards[0].printings">
-				<img src="http://magiccards.info/scans/en/{{printing.toLowerCase()}}/{{card.cards[0].number}}.jpg" width="224" height="320" alt="{{card.cards[0].name}}"/>
-			</div>
-		</div>
+		<table class="table">
+			<tr>
+				<td ng-repeat="card in cardsFound">
+					<div class="invMan__cards">
+						<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.cards[0].multiverseid}}&type=card" width="224" height="320" alt="{{card.cards[0].name}}"/>
+					</div>
+				</td>
+			</tr>
+		</table>
 	</div>
 
 	<h2>Inventory</h2>
@@ -33,7 +36,7 @@
 			<tr>
 				<td class="invMan__cards" 
 					ng-repeat="card in inventory">
-					<img src="http://magiccards.info/scans/en/{{card.printing[0].toLowerCase()}}/{{card.number}}.jpg" width="224" height="320" alt="{{card.name}}"/>
+					<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.multiverseid}}&type=card" width="224" height="320" alt="{{card.name}}"/>
 				</td>
 			</tr>
 		</table>
@@ -49,9 +52,9 @@
 			<tr ng-repeat="deck in decks">
 				<td class="invMan__cards" 
 					ng-repeat="card in deck.cards">
-					<img src="http://magiccards.info/scans/en/{{card.printing[0].toLowerCase()}}/{{card.number}}.jpg" width="224" height="320" alt="{{card.name}}"/>
+					<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.multiverseid}}&type=card" width="224" height="320" alt="{{card.name}}"/>
 				</td>
 			</tr>
 		</table>
-	</div>	
+	</div>		
 </div>

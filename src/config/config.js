@@ -4,11 +4,13 @@ import uiBootstrap from 'angular-ui-bootstrap';
 import todoFactory from 'factories/todo-factory';
 import invManFactory from 'factories/invMan-factory';
 import loginFactory from 'factories/login-factory';
+import adminFactory from 'factories/admin-factory';
 import todosController from 'todos/todos';
 import invController from 'invMan/invMan';
 import loginController from 'login/login';
+import adminController from 'admin/admin';
 
-const app = angular.module('app', [uiRouter, todoFactory.name, invManFactory.name, loginFactory.name, uiBootstrap]);
+const app = angular.module('app', [uiRouter, todoFactory.name, invManFactory.name, loginFactory.name, adminFactory.name, uiBootstrap]);
 
 app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
   $urlRouterProvider.otherwise('/');
@@ -33,6 +35,11 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
       url: '/',
       template: require('login/login.html'),
       controller: loginController
+    })
+    .state('admin', {
+      url: '/admin',
+      template: require('admin/admin.html'),
+      controller: adminController
     })
     
     $locationProvider.html5Mode(true);
