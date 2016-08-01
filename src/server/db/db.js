@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
-var passportLocalMongoose = require('passport-local-mongoose');
+//TODO
+//var passportLocalMongoose = require('passport-local-mongoose');
 var todosConnection = mongoose.createConnection('mongodb://localhost/todos');
-var invManConnection = mongoose.createConnection('mongodb://localhost/test');
+var setsConnection = mongoose.createConnection('mongodb://localhost/sets');
 var userConnection = mongoose.createConnection('mongodb://localhost/users');
+var inventoryConnection = mongoose.createConnection('mongodb://localhost/inventory');
 var namesConnection = mongoose.createConnection('mongodb://localhost/names');
 
 var Todo = todosConnection.model('Todo', new mongoose.Schema({
@@ -11,7 +13,7 @@ var Todo = todosConnection.model('Todo', new mongoose.Schema({
   isEditing: Boolean
 }));
 
-var Test = invManConnection.model('Test', new mongoose.Schema({
+var Sets = setsConnection.model('Sets', new mongoose.Schema({
 	name: String,
 	code: String
 }));
@@ -24,11 +26,18 @@ var User = userConnection.model('User', new mongoose.Schema({
 	lastname: String
 }));
 
-var Names = userConnection.model('Names', new mongoose.Schema({
+var Inventory = inventoryConnection.model('Inventory', new mongoose.Schema({
+	id: String,
+	inventory: [],
+	decks: []
+}));
+
+var Names = namesConnection.model('Names', new mongoose.Schema({
 	names: []
 }));
 
 module.exports.Todo = Todo;
-module.exports.Test = Test;
+module.exports.Sets = Sets;
 module.exports.User = User;
+module.exports.Inventory = Inventory;
 module.exports.Names = Names;

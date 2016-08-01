@@ -12,8 +12,9 @@ const loginFactory = angular.module('app.loginFactory', [])
 			password: $scope.user.password
 		}).success(response => {
 			console.log('login done');
+			$scope.user = response;
 			$rootScope.currentUser = response;
-			console.log($rootScope.currentUser + ' in rootScope');
+			console.log(response);
 		});
 	};
 

@@ -60,11 +60,6 @@ app.get('/lol', passport.authenticate('local', {
   console.log('login (server.js): ' + req.user.name);
 });
 
-app.get('/logout', function(req, res) {
-  req.logout();
-  res.redirect('/');
-});
-
 app.all('/*', function(req, res) {
   res.send('\
     <!DOCTYPE html>\

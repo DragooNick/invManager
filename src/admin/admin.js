@@ -1,5 +1,5 @@
 import _ from 'lodash';
 
-export default function($scope, $http, invManFactory) {
-	$scope.getNames = _.partial(invManFactory.getNames, $scope);
+export default function($scope, $http, adminFactory) {
+	$scope.getNames = _.partial(adminFactory.getNames, $scope);
 }

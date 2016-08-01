@@ -3,11 +3,11 @@ import _ from 'lodash';
 
 const adminFactory = angular.module('app.adminFactory', [])
 
-.factory('invManFactory', ($http) => {
+.factory('adminFactory', ($http) => {
 
 	function getNames($scope) {
 		console.log('start getNames');
-		$http.get('/invMan/getNames').success(response => {
+		$http.get('/admin/getNames').success(response => {
 			console.log('show response');
 			console.log(response);
 			var namesJson = [];
@@ -27,7 +27,7 @@ const adminFactory = angular.module('app.adminFactory', [])
 	function saveNames($scope, names) {
 		console.log('start saveNames');
 		console.log(names);
-		$http.post('/invMan/saveNames', names).success(response => {
+		$http.post('/admin/saveNames', names).success(response => {
 			$scope.cards = names;
 			console.log(response);
 		});
@@ -39,4 +39,4 @@ const adminFactory = angular.module('app.adminFactory', [])
 	};
 });
 
-export default invManFactory;
+export default adminFactory;
