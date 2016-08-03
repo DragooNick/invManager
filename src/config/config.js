@@ -29,7 +29,7 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
       url: '/invMan',
       template: require('invMan/invMan.html'),
       controller: invController,
-      resolve: { loginCheck: checkLogin }
+      //resolve: { loginCheck: checkAuth }
     })
     .state('login', {
       url: '/',
@@ -44,6 +44,15 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
     
     $locationProvider.html5Mode(true);
 });
+
+var checkAuth = function checkAuth(req, res, next) {
+  console.log('checkLogin');
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    alert('nope');
+  }
+};
 
 var checkLogin = function($q, $timeout, $http, $location, $rootScope) {
   console.log('checkLogin');

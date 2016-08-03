@@ -5,7 +5,16 @@ const invManFactory = angular.module('app.invManFactory', [])
 
 .factory('invManFactory', ($http) => {
 
+	function getNamesArray($scope) {
+		console.log('start getting Names');
+		$http.get('/invMan/getNamesArray').success(response => {
+			console.log(response[0].names);
+			$scope.cards = response[0].names;
+		});
+	}
+
 	function searchCard($scope) {
+		console.log($scope.cards);
 		console.log({"cards.name": $scope.cardSearch.card });
 		$http.post('/invMan/cardSearch', {
 			name : $scope.cardSearch.card
@@ -37,6 +46,7 @@ const invManFactory = angular.module('app.invManFactory', [])
 	}
 
 	return {
+		getNamesArray,
 		searchCard,
 		getInventory,
 		getDecks

@@ -1,8 +1,19 @@
 var mongoose = require('mongoose');
+var Names = require('server/db/db').Names;
 var Sets = require('server/db/db').Sets;
 var Inventory = require('server/db/db').Inventory;
 var express = require('express');
 var router = express.Router();
+
+
+router.get('/getNamesArray', function(req, res) {
+	console.log('start getting names');
+	Names.find(function(err, results) {
+		if(err) {console.log(err); }
+		console.log('send names');
+		res.send(results);
+	})
+});
 
 router.get('/sets', function(req, res) {
 // var sets = new Sets({name: 'Sets Set', code: 'TS1'});
