@@ -44,6 +44,16 @@
 					</div>
 				</td>
 			</tr>
+			<tr>
+				<td ng-repeat="card in cardsFound">
+					<button ng-click="">
+						Add Card to Inventory
+					</button>
+					<button ng-click="">
+						Add Card to Deck xy
+					</button>
+				</td>
+			</tr>
 		</table>
 	</div>
 
@@ -64,16 +74,46 @@
 	</div>
 
 	<h2>Decks</h2>
+		<div>
+				
+		</div>
 	<div ng-model="decks">
 		<button class="btn"
-			ng-click="getDecks()">
+			ng-click="getDecks(decks)">
 			Get Decks
 		</button>
 		<table class="table">
+			<tr>
+				<th>Deck Name</th>
+				<th>Cards</th>
+			</tr>
 			<tr ng-repeat="deck in decks">
+				<td>
+					{{deck.deckname}}
+					<button class="btn"
+						ng-click="delDeck(deck)">
+						Delete Deck
+					</button>
+				</td>
 				<td class="invMan__cards" 
 					ng-repeat="card in deck.cards">
 					<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.multiverseid}}&type=card" width="224" height="320" alt="{{card.name}}"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				<form ng-submit="addDeck(deckToAdd)">
+				<input type="Deckname"
+					class="form-control invMan__deck-input" 
+					placeholder="Deck Name"
+					ng-model="deckToAdd">
+				<button class="btn">
+					Add Deck
+				</button>
+				</form>
+				</td>
+				<td>
+					no cards
 				</td>
 			</tr>
 		</table>

@@ -5,12 +5,13 @@ var todosConnection = mongoose.createConnection('mongodb://localhost/todos');
 var setsConnection = mongoose.createConnection('mongodb://localhost/sets');
 var userConnection = mongoose.createConnection('mongodb://localhost/users');
 var inventoryConnection = mongoose.createConnection('mongodb://localhost/inventory');
+var decksConnection = mongoose.createConnection('mongodb://localhost/decks');
 var namesConnection = mongoose.createConnection('mongodb://localhost/names');
 
 var Todo = todosConnection.model('Todo', new mongoose.Schema({
-  task: String,
-  isCompleted: Boolean,
-  isEditing: Boolean
+	task: String,
+	isCompleted: Boolean,
+	isEditing: Boolean
 }));
 
 var Sets = setsConnection.model('Sets', new mongoose.Schema({
@@ -27,9 +28,14 @@ var User = userConnection.model('User', new mongoose.Schema({
 }));
 
 var Inventory = inventoryConnection.model('Inventory', new mongoose.Schema({
-	id: String,
-	inventory: [],
-	decks: []
+	username: String,
+	cards: []
+}));
+
+var Deck = decksConnection.model('Deck', new mongoose.Schema({
+	username: String,
+	deckname: String,
+	cards: []
 }));
 
 var Names = namesConnection.model('Names', new mongoose.Schema({
@@ -40,4 +46,5 @@ module.exports.Todo = Todo;
 module.exports.Sets = Sets;
 module.exports.User = User;
 module.exports.Inventory = Inventory;
+module.exports.Deck = Deck;
 module.exports.Names = Names;

@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Names = require('server/db/db').Names;
 var Sets = require('server/db/db').Sets;
 var Inventory = require('server/db/db').Inventory;
+var Deck = require('server/db/db').Deck;
 var express = require('express');
 var router = express.Router();
 
@@ -29,7 +30,7 @@ router.get('/sets', function(req, res) {
 
 router.put('/lolsets', function(req, res) {
 	 var sets = new Sets(req.body);
-	 sets.save(function(err, results) {
+	 sets.save(function(err) {
 	 	if(err) { console.log(err); }
 	 	res.send("Done!");
 	 });
@@ -48,16 +49,52 @@ router.post('/getInventory', function(req, res) {
 	Inventory.findOne({username: req.body.username}, function(err, results) {
 		if(err) { console.log(err); }
 		console.log(results);
-		res.send({cards: results});
+		res.send(results);
+	});
+});
+
+router.put('/addDeck/backup', function(req, res) {
+	console.log('get ' + req.body.username + ' add ' + req.body.deckname + ' to decks');
+	Inventory.update({username: req.body.username}, {
+		$push: { decks: { 
+			name: req.body.deckname,
+			cards: [] 
+	}}}, function(err, results) {
+		if(err) { console.log(err, results); }
+		console.log(results);
+		res.send('Deck added');
+	});
+});
+
+router.put('/addDeck', function(req, res) {
+	console.log('get ' + req.body.username + ' add ' + req.body.deckname + ' to decks');
+	var deck = new Deck({
+		username: req.body.username,
+		deckname: req.body.deckname,
+		cards: [] 
+	});
+	deck.save(function(err, results) {
+		if(err) { console.log(err, results); }
+		console.log(results);
+		res.send('Deck added');
 	});
 });
 
 router.post('/getDecks', function(req, res) {
 	console.log(req.body.username);
-	Inventory.findOne({username: req.body.username}, function(err, results) {
+	Deck.find({username: req.body.username}, function(err, results) {
 		if(err) { console.log(err); }
 		console.log(results);
-		res.send({cards: results});
+		res.send(results);
+	});
+});
+
+router.delete('/delDeck/:id', function(req, res) {
+	var id = req.params.id;
+	console.log('delete Deck: ' + id);
+	Deck.remove({_id: mongoose.Types.ObjectId(id)}, function(err) {
+		if(err) { console.log(err); }
+		res.send('Deck deleted');
 	});
 });
 

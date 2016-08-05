@@ -30,8 +30,20 @@ const invManFactory = angular.module('app.invManFactory', [])
 		$http.post('/invMan/getInventory', {
 			username : $scope.user.username
 		}).success(response => {
-			$scope.inventory = response.cards.inventory;
-			console.log($scope.inventory[0]);
+			$scope.inventory = response.cards;
+			console.log($scope.inventory);
+		});
+	}
+
+	function addDeck($scope, deckToAdd) {
+		console.log('add Deck: ' + deckToAdd);
+		$http.put('/invMan/addDeck', {
+			username: $scope.user.username,
+			deckname: deckToAdd			
+		}).success(response => {
+			console.log(response);
+			getDecks($scope);
+			$scope.deckToAdd = '';
 		});
 	}
 
@@ -40,8 +52,17 @@ const invManFactory = angular.module('app.invManFactory', [])
 		$http.post('/invMan/getDecks', {
 			username : $scope.user.username
 		}).success(response => {
-			$scope.decks = response.cards.decks;
+			$scope.decks = response;
 			console.log($scope.decks[0]);
+		});
+	}
+
+	function delDeck($scope, deckToDelete) {
+		console.log(deckToDelete);
+		console.log('delete deck: ');
+		$http.delete(`/invMan/delDeck/${deckToDelete._id}`).success(response => {
+			console.log(response);
+			getDecks($scope);
 		});
 	}
 
@@ -49,7 +70,9 @@ const invManFactory = angular.module('app.invManFactory', [])
 		getNamesArray,
 		searchCard,
 		getInventory,
-		getDecks
+		addDeck,
+		getDecks,
+		delDeck
 	};
 });
 
