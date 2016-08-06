@@ -46,11 +46,8 @@
 			</tr>
 			<tr>
 				<td ng-repeat="card in cardsFound">
-					<button ng-click="">
-						Add Card to Inventory
-					</button>
-					<button ng-click="">
-						Add Card to Deck xy
+					<button ng-click="addCard(card.cards[0])">
+						Add Card: {{card.cards[0].name}} to Inventory
 					</button>
 				</td>
 			</tr>
@@ -65,9 +62,34 @@
 		</button>
 		<table class="table">
 			<tr>
-				<td class="invMan__cards" 
-					ng-repeat="card in inventory">
+				<th>
+					Amount
+				</th>
+				<th>
+					Total
+				</th>
+				<th>
+					{{getTotal()}}
+				</th>
+			</tr>
+			<tr ng-repeat="card in inventory | orderBy: 'name'"
+				inventory.amount += card.amount>
+				<td>
+					{{card.amount}}
+				</td>
+				<td class="invMan__cards">
 					<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.multiverseid}}&type=card" width="224" height="320" alt="{{card.name}}"/>
+				</td>
+				<td>
+					<button ng-click="addCard(card)">
+						Add Card: {{card.name}} to Inventory
+					</button>
+					<button ng-click="subtractCard(card)">
+						Subtract Card: {{card.name}} to Inventory
+					</button>
+					<button ng-click="delCard(card)">
+						Del Card: {{card.name}} from Inventory
+					</button>
 				</td>
 			</tr>
 		</table>
@@ -87,7 +109,7 @@
 				<th>Deck Name</th>
 				<th>Cards</th>
 			</tr>
-			<tr ng-repeat="deck in decks">
+			<tr ng-repeat="deck in decks | orderBy: 'deckname'">
 				<td>
 					{{deck.deckname}}
 					<button class="btn"

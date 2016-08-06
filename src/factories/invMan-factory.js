@@ -14,14 +14,63 @@ const invManFactory = angular.module('app.invManFactory', [])
 	}
 
 	function searchCard($scope) {
-		console.log($scope.cards);
 		console.log({"cards.name": $scope.cardSearch.card });
 		$http.post('/invMan/cardSearch', {
 			name : $scope.cardSearch.card
 		}).success(response => {
 			console.log(response);
-			$scope.cardsFound = response.cards;
-			console.log($scope.cardsFound);
+			$scope.cardsFound = response;
+		});
+	}
+
+	function addCard($scope, cardToAdd) {
+		console.log('add Card: ' + cardToAdd.name);
+		$http.put('/invMan/addCard', {
+			username: $scope.user.username,
+			name: cardToAdd.name,
+			language: 'en',
+			condition: 'nm',
+			foil: false,
+			signed: false,
+			altered: false,
+			multiverseid: cardToAdd.multiverseid
+		}).success(response => {
+			console.log(response);
+			getInventory($scope);
+		});
+	}
+
+	function subtractCard($scope, cardToSubtract) {
+		console.log('subtract Card: ' + cardToSubtract.name);
+
+		if(cardToSubtract.amount == 1) {
+			delCard($scope, cardToSubtract);
+		} else {
+			$http.put('/invMan/subtractCard', {
+				username: $scope.user.username,
+				name: cardToSubtract.name,
+				language: 'en',
+				condition: 'nm',
+				foil: false,
+				signed: false,
+				altered: false,
+				multiverseid: cardToSubtract.multiverseid
+			}).success(response => {
+				console.log(response);
+				getInventory($scope);
+			});
+		}	
+	}
+
+	function delCard($scope, cardToDelete) {
+		console.log('delete Card: ' + cardToDelete.name);
+		$http.post('/invMan/delCard', {
+			username: $scope.user.username,
+			name: cardToDelete.name,
+			multiverseid: cardToDelete.multiverseid
+		}).success(response => {
+			console.log(response);
+			getInventory($scope);
 		});
 	}
 
@@ -58,8 +107,7 @@ const invManFactory = angular.module('app.invManFactory', [])
 	}
 
 	function delDeck($scope, deckToDelete) {
-		console.log(deckToDelete);
-		console.log('delete deck: ');
+		console.log('delete deck: ' + deckToDelete);
 		$http.delete(`/invMan/delDeck/${deckToDelete._id}`).success(response => {
 			console.log(response);
 			getDecks($scope);
@@ -69,6 +117,9 @@ const invManFactory = angular.module('app.invManFactory', [])
 	return {
 		getNamesArray,
 		searchCard,
+		addCard,
+		subtractCard,
+		delCard,
 		getInventory,
 		addDeck,
 		getDecks,

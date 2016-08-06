@@ -17,22 +17,9 @@ router.get('/getNamesArray', function(req, res) {
 });
 
 router.get('/sets', function(req, res) {
-// var sets = new Sets({name: 'Sets Set', code: 'TS1'});
-//  	sets.save(function(err) {
-//    if (err) { consol.log(err); }
-//    res.send('Sets saved');
-//  });
 	 Sets.find(function(err, results) {
 	 	if(err) { console.log(err); }
 	 	res.send({sets: results});
-	 });
-});
-
-router.put('/lolsets', function(req, res) {
-	 var sets = new Sets(req.body);
-	 sets.save(function(err) {
-	 	if(err) { console.log(err); }
-	 	res.send("Done!");
 	 });
 });
 
@@ -40,7 +27,95 @@ router.post('/cardSearch', function(req, res) {
 	console.log('req.body ' + req.body.name);
 	Sets.find({"cards.name" : req.body.name},{"cards.$": 1}, function(err, results) {
 		if(err) { console.log(err); }
-		res.send({cards: results});
+		res.send(results);
+	});
+});
+
+router.put('/addCard', function(req, res) {
+	console.log('add Card: ' + req.body.name + ' to Inventory of user: ' + req.body.username);
+	
+	Inventory.findOne({
+		username: req.body.username,
+		"cards.name": req.body.name,
+		"cards.language": req.body.language,
+		"cards.condition": req.body.condition,
+		"cards.foil": req.body.foil,
+		"cards.signed": req.body.signed,
+		"cards.altered": req.body.altered,
+		"cards.multiverseid": req.body.multiverseid
+	},{"cards.$": 1}, function(err, results) {
+		if(err) { console.log(err); }
+		if(results == null) {
+			Inventory.update({username: req.body.username}, {
+				$push: { cards: {
+					name: req.body.name,
+					language: req.body.language,
+					condition: req.body.condition,
+					foil: req.body.foil,
+					signed: req.body.signed,
+					altered: req.body.altered,
+					multiverseid: req.body.multiverseid,
+					amount: 1
+				}}
+			}, function(err, results) {
+				if (err) { console.log(err); }
+				console.log(results);
+			});
+			res.send('Card added to Inventory');
+		} else {
+			Inventory.update({
+				username: req.body.username,
+				"cards.name": req.body.name,
+				"cards.language": req.body.language,
+				"cards.condition": req.body.condition,
+				"cards.foil": req.body.foil,
+				"cards.signed": req.body.signed,
+				"cards.altered": req.body.altered,
+				"cards.multiverseid": req.body.multiverseid
+			},{
+				$inc: { "cards.$.amount": 1 }
+			}, function(err, results) {
+				if (err) { console.log(err); }
+				console.log(results);
+				res.send('Amount increased');
+			} );
+		}
+		console.log(results);
+	});
+});
+
+router.put('/subtractCard', function(req, res) {
+	console.log('subtract Card: ' + req.body.name + ' in Inventory of user: ' + req.body.username);
+	
+	Inventory.update({
+		username: req.body.username,
+		"cards.name": req.body.name,
+		"cards.language": req.body.language,
+		"cards.condition": req.body.condition,
+		"cards.foil": req.body.foil,
+		"cards.signed": req.body.signed,
+		"cards.altered": req.body.altered,
+		"cards.multiverseid": req.body.multiverseid
+	},{
+		$inc: { "cards.$.amount": -1 }
+	}, function(err, results) {
+		if (err) { console.log(err); }
+		console.log(results);
+		res.send('Amount decreased');
+	});
+});
+
+router.post('/delCard', function(req, res) {
+	console.log('del Card: ' + req.body.name + ' from Inventory of user: ' + req.body.username);
+	Inventory.update({username: req.body.username}, {
+		$pull: { cards: {
+					name: req.body.name,
+					multiverseid: req.body.multiverseid
+				}}
+	}, function(err, results) {
+		if (err) { console.log(err); }
+		console.log(results);
+		res.send('Card deleted from Inventory');
 	});
 });
 
