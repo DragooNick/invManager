@@ -146,6 +146,7 @@ router.put('/addDeck', function(req, res) {
 	var deck = new Deck({
 		username: req.body.username,
 		deckname: req.body.deckname,
+		format: req.body.format,
 		cards: [] 
 	});
 	deck.save(function(err, results) {
@@ -170,6 +171,61 @@ router.delete('/delDeck/:id', function(req, res) {
 	Deck.remove({_id: mongoose.Types.ObjectId(id)}, function(err) {
 		if(err) { console.log(err); }
 		res.send('Deck deleted');
+	});
+});
+
+router.put('/addCardToDeck', function(req, res) {
+	console.log('add Card: ' + req.body.name + ' to Deck: ' + req.body.deckname + ' of user: ' + req.body.username);
+	
+	Deck.findOne({
+		username: req.body.username,
+		deckname: req.body.deckname,
+		"cards.name": req.body.name,
+		"cards.language": req.body.language,
+		"cards.condition": req.body.condition,
+		"cards.foil": req.body.foil,
+		"cards.signed": req.body.signed,
+		"cards.altered": req.body.altered,
+		"cards.multiverseid": req.body.multiverseid
+	},{"cards.$": 1}, function(err, results) {
+		if(err) { console.log(err); }
+		if(results == null) {
+			Deck.update({username: req.body.username, deckname: req.body.deckname}, {
+				$push: { cards: {
+					name: req.body.name,
+					language: req.body.language,
+					condition: req.body.condition,
+					foil: req.body.foil,
+					signed: req.body.signed,
+					altered: req.body.altered,
+					multiverseid: req.body.multiverseid,
+					amount: 1
+				}}
+			}, function(err, results) {
+				if (err) { console.log(err); }
+				console.log(results);
+			});
+			res.send('Card added to Deck');
+		} else {
+			Deck.update({
+				username: req.body.username,
+				deckname: req.body.deckname,
+				"cards.name": req.body.name,
+				"cards.language": req.body.language,
+				"cards.condition": req.body.condition,
+				"cards.foil": req.body.foil,
+				"cards.signed": req.body.signed,
+				"cards.altered": req.body.altered,
+				"cards.multiverseid": req.body.multiverseid
+			},{
+				$inc: { "cards.$.amount": 1 }
+			}, function(err, results) {
+				if (err) { console.log(err); }
+				console.log(results);
+				res.send('Amount increased');
+			} );
+		}
+		console.log(results);
 	});
 });
 

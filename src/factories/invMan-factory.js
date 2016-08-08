@@ -88,7 +88,8 @@ const invManFactory = angular.module('app.invManFactory', [])
 		console.log('add Deck: ' + deckToAdd);
 		$http.put('/invMan/addDeck', {
 			username: $scope.user.username,
-			deckname: deckToAdd			
+			deckname: deckToAdd,
+			format: 'Casual'			
 		}).success(response => {
 			console.log(response);
 			getDecks($scope);
@@ -114,6 +115,24 @@ const invManFactory = angular.module('app.invManFactory', [])
 		});
 	}
 
+	function addCardToDeck($scope, cardToAdd, deckname) {
+		console.log('add Card: ' + cardToAdd.name + ' to Deck: ' + deckname);
+		$http.put('/invMan/addCardToDeck', {
+			username: $scope.user.username,
+			deckname: deckname,
+			name: cardToAdd.name,
+			language: 'en',
+			condition: 'nm',
+			foil: false,
+			signed: false,
+			altered: false,
+			multiverseid: cardToAdd.multiverseid
+		}).success(response => {
+			console.log(response);
+			getDecks($scope);
+		});
+	}
+
 	return {
 		getNamesArray,
 		searchCard,
@@ -123,7 +142,8 @@ const invManFactory = angular.module('app.invManFactory', [])
 		getInventory,
 		addDeck,
 		getDecks,
-		delDeck
+		delDeck,
+		addCardToDeck
 	};
 });
 

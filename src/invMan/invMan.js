@@ -20,10 +20,10 @@ export default function($scope, $http, invManFactory) {
 
 	$scope.getInventory = _.partial(invManFactory.getInventory, $scope);
 
-	$scope.getTotal = () => {
+	$scope.getTotal = toBeCounted => {
     	var total = 0;
-    	for(var i = 0; i < $scope.inventory.length; i++){
-        	total += $scope.inventory[i].amount;
+    	for(var i = 0; i < toBeCounted.length; i++){
+        	total += toBeCounted[i].amount;
     	}
     	return total;
 	};
@@ -33,4 +33,14 @@ export default function($scope, $http, invManFactory) {
 	$scope.getDecks = _.partial(invManFactory.getDecks, $scope);
 
 	$scope.delDeck = _.partial(invManFactory.delDeck, $scope);
+
+	$scope.addCardToDeck = _.partial(invManFactory.addCardToDeck, $scope);
+
+	$scope.getDeckList = deck => {
+		var list = "";
+		for(var i = 0; i < deck.length; i++){
+        	list += deck[i].amount + " " + deck[i].name;
+    	}
+    	return list;
+	};
 }

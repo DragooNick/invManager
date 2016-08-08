@@ -35,6 +35,7 @@ var Inventory = inventoryConnection.model('Inventory', new mongoose.Schema({
 var Deck = decksConnection.model('Deck', new mongoose.Schema({
 	username: String,
 	deckname: String,
+	format: String,
 	cards: []
 }));
 

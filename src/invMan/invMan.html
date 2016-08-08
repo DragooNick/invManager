@@ -1,4 +1,4 @@
-    <div class="container">
+<div class="container">
 
     <nav class="navbar navbar-inverse">
   		<div class="container-fluid">
@@ -8,7 +8,7 @@
     	<ul class="nav navbar-nav">
       		<li><a ui-sref="login">Home</a></li>
       		<li class="active"><a ui-sref="invMan">Inventory Manager</a></li>
-      		<li><a ui-sref="admin">Administration</a></li>
+      		<li><a ui-sref="">Administration</a></li>
       		<li><a ui-sref="about">About</a></li>
     	</ul>
     	<ul class="nav navbar-nav navbar-right">
@@ -48,7 +48,18 @@
 				<td ng-repeat="card in cardsFound">
 					<button class="btn"
 						ng-click="addCard(card.cards[0])">
-						Add Card: {{card.cards[0].name}} to Inventory
+						Add Card to Inventory
+					</button>
+					<select class="selectpicker"
+						ng-model="deckname">
+						<optgroup ng-repeat="deck in decks | orderBy: 'format'"
+					  		label="{{deck.format}}">
+							<option>{{deck.deckname}}</option>
+						</optgroup>
+					</select>
+					<button class="btn"
+						ng-click="addCardToDeck(card.cards[0], deckname)">
+						Add Card to selected Deck
 					</button>
 				</td>
 			</tr>
@@ -70,7 +81,7 @@
 					Total
 				</th>
 				<th>
-					{{getTotal()}}
+					{{getTotal(inventory)}}
 				</th>
 			</tr>
 			<tr ng-repeat="card in inventory | orderBy: 'name'">
@@ -93,6 +104,17 @@
 						 ng-click="delCard(card)">
 						Delete Card
 					</button>
+					<select class="selectpicker"
+						ng-model="deckname">
+						<optgroup ng-repeat="deck in decks | orderBy: 'format'"
+					  		label="{{deck.format}}">
+							<option>{{deck.deckname}}</option>
+						</optgroup>
+					</select>
+					<button class="btn"
+						ng-click="addCardToDeck(card, deckname)">
+						Add Card to selected Deck
+					</button>
 				</td>
 			</tr>
 		</table>
@@ -112,6 +134,16 @@
 				<th>Deck Name</th>
 				<th>Cards</th>
 			</tr>
+			<div class="panel panel-default invMan__deck-panel"
+				ng-repeat="deck in decks | orderBy: 'deckname'">
+				<div class="panel-heading">
+					<h3 class="panel-title">{{deck.deckname}}</h3>
+				</div>
+				<div class="panel-body">
+					{{getDeckList(deck.cards)}}
+				</div>
+				<div class="panel-footer">Cards: {{getTotal(deck.cards)}}</div>
+			</div>
 			<tr ng-repeat="deck in decks | orderBy: 'deckname'">
 				<td>
 					{{deck.deckname}}
