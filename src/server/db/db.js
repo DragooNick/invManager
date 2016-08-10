@@ -29,7 +29,16 @@ var User = userConnection.model('User', new mongoose.Schema({
 
 var Inventory = inventoryConnection.model('Inventory', new mongoose.Schema({
 	username: String,
-	cards: []
+	cards: [{
+		altered: Boolean, 
+		amount: Number, 
+		condition: String, 
+		foil: Boolean, 
+		language: String, 
+		multiverseid: Number, 
+		name: String, 
+		signed: Boolean
+	}]
 }));
 
 var Deck = decksConnection.model('Deck', new mongoose.Schema({

@@ -28,12 +28,13 @@ const invManFactory = angular.module('app.invManFactory', [])
 		$http.put('/invMan/addCard', {
 			username: $scope.user.username,
 			name: cardToAdd.name,
-			language: 'en',
+			language: 'de',
 			condition: 'nm',
 			foil: false,
 			signed: false,
 			altered: false,
-			multiverseid: cardToAdd.multiverseid
+			multiverseid: cardToAdd.multiverseid,
+			amount: cardToAdd.amount
 		}).success(response => {
 			console.log(response);
 			getInventory($scope);
@@ -49,12 +50,13 @@ const invManFactory = angular.module('app.invManFactory', [])
 			$http.put('/invMan/subtractCard', {
 				username: $scope.user.username,
 				name: cardToSubtract.name,
-				language: 'en',
+				language: 'de',
 				condition: 'nm',
 				foil: false,
 				signed: false,
 				altered: false,
-				multiverseid: cardToSubtract.multiverseid
+				multiverseid: cardToSubtract.multiverseid,
+				amount: cardToSubtract.amount
 			}).success(response => {
 				console.log(response);
 				getInventory($scope);

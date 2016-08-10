@@ -8,7 +8,7 @@ export default function($scope, $http, invManFactory) {
 
 	$scope.inventory = [];
 
-    $scope.getNamesArray = _.partial(invManFactory.getNamesArray, $scope);
+    invManFactory.getNamesArray($scope); 
 
 	$scope.searchCard = _.partial(invManFactory.searchCard, $scope);
 

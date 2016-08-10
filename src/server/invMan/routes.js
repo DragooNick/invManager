@@ -43,10 +43,17 @@ router.put('/addCard', function(req, res) {
 		"cards.signed": req.body.signed,
 		"cards.altered": req.body.altered,
 		"cards.multiverseid": req.body.multiverseid
-	},{"cards.$": 1}, function(err, results) {
-		if(err) { console.log(err); }
+	}, function(err, results) {
+		console.log(req.body);
+		if(err) { console.log("ERROR " + err); }
+		console.log('LOLOLOLOLOLOLOLOLOLOLO');
+		console.log('LOLOLOLOLOLOLOLOLOLOLO');
+		console.log('Results of LOLOLOLOLOLOLOLOLOLOLO');
+		console.log(results);
 		if(results == null) {
-			Inventory.update({username: req.body.username}, {
+			console.log('IFIFIFIFIFIFFIFIFIF');
+			console.log('IFIFIFIFIFIFFIFIFIF');
+			Inventory.findOneAndUpdate({username: req.body.username}, {
 				$push: { cards: {
 					name: req.body.name,
 					language: req.body.language,
@@ -55,50 +62,58 @@ router.put('/addCard', function(req, res) {
 					signed: req.body.signed,
 					altered: req.body.altered,
 					multiverseid: req.body.multiverseid,
-					amount: 1
+					amount: req.body.amount
 				}}
 			}, function(err, results) {
-				if (err) { console.log(err); }
+				if (err) { console.log("IF ERROR " + err); }
+				console.log('Results of IFIFIFIFIFIFFIFIFIF');
 				console.log(results);
 			});
 			res.send('Card added to Inventory');
 		} else {
+			console.log('ELSELSELSELSELSELSE');
+			console.log('ELSELSELSELSELSELSE');
 			Inventory.update({
-				username: req.body.username,
-				"cards.name": req.body.name,
-				"cards.language": req.body.language,
-				"cards.condition": req.body.condition,
-				"cards.foil": req.body.foil,
-				"cards.signed": req.body.signed,
-				"cards.altered": req.body.altered,
-				"cards.multiverseid": req.body.multiverseid
-			},{
-				$inc: { "cards.$.amount": 1 }
-			}, function(err, results) {
-				if (err) { console.log(err); }
+				"username" : "nick", 
+				"cards" : {
+					$elemMatch : {
+						"altered": req.body.altered, 
+						"amount": req.body.amount, 
+						"condition": req.body.condition, 
+						"foil": req.body.foil, 
+						"language" : req.body.language, 
+						"multiverseid": req.body.multiverseid, 
+						"name" : req.body.name, 
+						"signed": req.body.signed
+					}
+				}
+			},{ $inc: { "cards.$.amount" : 1}}, function(err, results) {
+				if (err) { console.log("ELSE ERROR " + err); }
+				console.log('Results of ELSELSELSELSELSELSE');
 				console.log(results);
 				res.send('Amount increased');
 			} );
 		}
-		console.log(results);
 	});
 });
 
 router.put('/subtractCard', function(req, res) {
-	console.log('subtract Card: ' + req.body.name + ' in Inventory of user: ' + req.body.username);
-	
+	console.log('subtract Card: ' + req.body.name + ' in Inventory of user: ' + req.body.username);	
 	Inventory.update({
-		username: req.body.username,
-		"cards.name": req.body.name,
-		"cards.language": req.body.language,
-		"cards.condition": req.body.condition,
-		"cards.foil": req.body.foil,
-		"cards.signed": req.body.signed,
-		"cards.altered": req.body.altered,
-		"cards.multiverseid": req.body.multiverseid
-	},{
-		$inc: { "cards.$.amount": -1 }
-	}, function(err, results) {
+		"username" : "nick", 
+		"cards" : {
+			$elemMatch : {
+				"altered": req.body.altered, 
+				"amount": req.body.amount, 
+				"condition": req.body.condition, 
+				"foil": req.body.foil, 
+				"language" : req.body.language, 
+				"multiverseid": req.body.multiverseid, 
+				"name" : req.body.name, 
+				"signed": req.body.signed
+			}
+		}
+	},{ $inc: { "cards.$.amount" : -1}}, function(err, results) {
 		if (err) { console.log(err); }
 		console.log(results);
 		res.send('Amount decreased');
@@ -107,9 +122,8 @@ router.put('/subtractCard', function(req, res) {
 
 router.post('/delCard', function(req, res) {
 	console.log('del Card: ' + req.body.name + ' from Inventory of user: ' + req.body.username);
-	Inventory.update({username: req.body.username}, {
+	Inventory.findOneAndUpdate({username: req.body.username}, {
 		$pull: { cards: {
-					name: req.body.name,
 					multiverseid: req.body.multiverseid
 				}}
 	}, function(err, results) {
@@ -120,9 +134,10 @@ router.post('/delCard', function(req, res) {
 });
 
 router.post('/getInventory', function(req, res) {
-	console.log(req.body.username);
+	console.log('/getInventory of User: ' + req.body.username);
 	Inventory.findOne({username: req.body.username}, function(err, results) {
 		if(err) { console.log(err); }
+		console.log('Results of /getInventory');
 		console.log(results);
 		res.send(results);
 	});
@@ -207,19 +222,18 @@ router.put('/addCardToDeck', function(req, res) {
 			});
 			res.send('Card added to Deck');
 		} else {
-			Deck.update({
-				username: req.body.username,
-				deckname: req.body.deckname,
-				"cards.name": req.body.name,
-				"cards.language": req.body.language,
-				"cards.condition": req.body.condition,
-				"cards.foil": req.body.foil,
-				"cards.signed": req.body.signed,
-				"cards.altered": req.body.altered,
-				"cards.multiverseid": req.body.multiverseid
-			},{
-				$inc: { "cards.$.amount": 1 }
-			}, function(err, results) {
+			Deck.update({"username" : "nick", "cards" : {
+				$elemMatch : {
+					"altered": false, 
+					"amount": 666, 
+					"condition":"nm", 
+					"foil":true, 
+					"language" : "jp", 
+					"multiverseid":391948, 
+					"name" : "Ugin, the Spirit Dragon", 
+					"signed":false}
+				}
+			}, {$set: {"cards.$.amount" : 9}}, function(err, results) {
 				if (err) { console.log(err); }
 				console.log(results);
 				res.send('Amount increased');
