@@ -62,7 +62,7 @@ router.put('/addCard', function(req, res) {
 					signed: req.body.signed,
 					altered: req.body.altered,
 					multiverseid: req.body.multiverseid,
-					amount: req.body.amount
+					amount: 1
 				}}
 			}, function(err, results) {
 				if (err) { console.log("IF ERROR " + err); }
@@ -73,12 +73,11 @@ router.put('/addCard', function(req, res) {
 		} else {
 			console.log('ELSELSELSELSELSELSE');
 			console.log('ELSELSELSELSELSELSE');
-			Inventory.update({
-				"username" : "nick", 
+			Inventory.update({username: req.body.username,
+				"username" : req.body.username, 
 				"cards" : {
 					$elemMatch : {
 						"altered": req.body.altered, 
-						"amount": req.body.amount, 
 						"condition": req.body.condition, 
 						"foil": req.body.foil, 
 						"language" : req.body.language, 
@@ -100,7 +99,7 @@ router.put('/addCard', function(req, res) {
 router.put('/subtractCard', function(req, res) {
 	console.log('subtract Card: ' + req.body.name + ' in Inventory of user: ' + req.body.username);	
 	Inventory.update({
-		"username" : "nick", 
+		"username" : req.body.username, 
 		"cards" : {
 			$elemMatch : {
 				"altered": req.body.altered, 
@@ -222,24 +221,58 @@ router.put('/addCardToDeck', function(req, res) {
 			});
 			res.send('Card added to Deck');
 		} else {
-			Deck.update({"username" : "nick", "cards" : {
+			Deck.update({"username" : req.body.username, "cards" : {
 				$elemMatch : {
-					"altered": false, 
-					"amount": 666, 
-					"condition":"nm", 
-					"foil":true, 
-					"language" : "jp", 
-					"multiverseid":391948, 
-					"name" : "Ugin, the Spirit Dragon", 
-					"signed":false}
+					"altered": req.body.altered, 
+					"condition": req.body.condition, 
+					"foil": req.body.foil, 
+					"language" : req.body.language, 
+					"multiverseid": req.body.multiverseid, 
+					"name" : req.body.name, 
+					"signed": req.body.signed
+					}
 				}
-			}, {$set: {"cards.$.amount" : 9}}, function(err, results) {
+			}, {$inc: {"cards.$.amount" : 1}}, function(err, results) {
 				if (err) { console.log(err); }
 				console.log(results);
 				res.send('Amount increased');
 			} );
 		}
 		console.log(results);
+	});
+});
+
+router.post('/subtractCardFromDeck/:id', function(req, res) {
+	console.log('SUBTRACT CARD FROM DECK REQUEST BODY');
+	console.log('Subtract card: ' + req.body.name + ' from Deck with id: ' + req.params.id);
+	var id = req.params.id;
+	Deck.update({_id: mongoose.Types.ObjectId(id),
+		"cards" : {
+			$elemMatch : {
+				"multiverseid": req.body.multiverseid
+			}
+		}
+	},{$inc: { "cards.$.amount" : -1}}, function(err, results) {
+		if(err) { console.log('ERROR ' + err); }
+		console.log(results);
+		res.send('Card subtracted from Deck');
+	});
+});
+
+router.post('/delCardFromDeck/:id', function(req, res) {
+	console.log('DELETE CARD FROM DECK REQUEST BODY');
+	console.log('Delete card: ' + req.body.name + ' from Deck with id: ' + req.params.id);
+	var id = req.params.id;
+	Deck.update({_id: mongoose.Types.ObjectId(id)}, {
+		$pull : {
+			cards: {
+				multiverseid: req.body.multiverseid
+			}
+		}
+	}, function(err, results) {
+		if(err) { console.log('ERROR ' + err); }
+		console.log(results);
+		res.send('Card deleted from Deck');
 	});
 });
 

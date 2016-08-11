@@ -18,7 +18,7 @@ export default function($scope, $http, invManFactory) {
 
 	$scope.delCard = _.partial(invManFactory.delCard, $scope);
 
-	$scope.getInventory = _.partial(invManFactory.getInventory, $scope);
+	invManFactory.getInventory($scope);
 
 	$scope.getTotal = toBeCounted => {
     	var total = 0;
@@ -30,11 +30,15 @@ export default function($scope, $http, invManFactory) {
 
 	$scope.addDeck = _.partial(invManFactory.addDeck, $scope);
 
-	$scope.getDecks = _.partial(invManFactory.getDecks, $scope);
+	invManFactory.getDecks($scope);
 
 	$scope.delDeck = _.partial(invManFactory.delDeck, $scope);
 
 	$scope.addCardToDeck = _.partial(invManFactory.addCardToDeck, $scope);
+
+	$scope.subtractCardFromDeck = _.partial(invManFactory.subtractCardFromDeck, $scope);
+
+	$scope.delCardFromDeck = _.partial(invManFactory.delCardFromDeck, $scope);
 
 	$scope.getDeckList = deck => {
 		var list = "";

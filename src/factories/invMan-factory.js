@@ -25,10 +25,11 @@ const invManFactory = angular.module('app.invManFactory', [])
 
 	function addCard($scope, cardToAdd) {
 		console.log('add Card: ' + cardToAdd.name);
+
 		$http.put('/invMan/addCard', {
 			username: $scope.user.username,
 			name: cardToAdd.name,
-			language: 'de',
+			language: 'en',
 			condition: 'nm',
 			foil: false,
 			signed: false,
@@ -50,7 +51,7 @@ const invManFactory = angular.module('app.invManFactory', [])
 			$http.put('/invMan/subtractCard', {
 				username: $scope.user.username,
 				name: cardToSubtract.name,
-				language: 'de',
+				language: 'en',
 				condition: 'nm',
 				foil: false,
 				signed: false,
@@ -117,11 +118,11 @@ const invManFactory = angular.module('app.invManFactory', [])
 		});
 	}
 
-	function addCardToDeck($scope, cardToAdd, deckname) {
-		console.log('add Card: ' + cardToAdd.name + ' to Deck: ' + deckname);
+	function addCardToDeck($scope, cardToAdd, deck) {
+		console.log('add Card: ' + cardToAdd.name + ' to Deck: ' + deck.deckname);
 		$http.put('/invMan/addCardToDeck', {
 			username: $scope.user.username,
-			deckname: deckname,
+			deckname: deck.deckname,
 			name: cardToAdd.name,
 			language: 'en',
 			condition: 'nm',
@@ -131,6 +132,25 @@ const invManFactory = angular.module('app.invManFactory', [])
 			multiverseid: cardToAdd.multiverseid
 		}).success(response => {
 			console.log(response);
+			getDecks($scope);
+		});
+	}
+
+	function subtractCardFromDeck($scope, cardToSubtract, deck) {
+		console.log('subtract Card: ' + cardToSubtract.name + ' from Deck: ' + deck.deckname);
+
+		if(cardToSubtract.amount == 1) {
+			delCardFromDeck($scope, cardToSubtract, deck);
+		} else {
+			$http.post(`/invMan/subtractCardFromDeck/${deck._id}`, cardToSubtract).success(response => {
+				getDecks($scope);
+			});
+		}		
+	}
+
+	function delCardFromDeck($scope, cardToDelete, deck) {
+		console.log('delete Card: ' + cardToDelete.name + ' from Deck: ' + deck.deckname);
+		$http.post(`/invMan/delCardFromDeck/${deck._id}`, cardToDelete).success(response => {
 			getDecks($scope);
 		});
 	}
@@ -145,7 +165,9 @@ const invManFactory = angular.module('app.invManFactory', [])
 		addDeck,
 		getDecks,
 		delDeck,
-		addCardToDeck
+		addCardToDeck,
+		subtractCardFromDeck,
+		delCardFromDeck
 	};
 });
 

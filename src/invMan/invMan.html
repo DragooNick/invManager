@@ -53,7 +53,7 @@
 						</optgroup>
 					</select>
 					<button class="btn"
-						ng-click="addCardToDeck(card.cards[0], deckname)">
+						ng-click="addCardToDeck(card.cards[0], {'deckname': deckname})">
 						Add Card to selected Deck
 					</button>
 				</td>
@@ -63,10 +63,6 @@
 
 	<h2>Inventory</h2>
 	<div ng-model="inventory">
-		<button class="btn"
-			ng-click="getInventory()">
-			Get Inventory
-		</button>
 		<table class="table">
 			<tr>
 				<th>
@@ -116,32 +112,23 @@
 	</div>
 
 	<h2>Decks</h2>
-		<div>
-				
-		</div>
 	<div ng-model="decks">
-		<button class="btn"
-			ng-click="getDecks(decks)">
-			Get Decks
-		</button>
 		<table class="table">
 			<tr>
 				<th>Deck Name</th>
 				<th>Cards</th>
 			</tr>
-			<div class="panel panel-default invMan__deck-panel"
-				ng-repeat="deck in decks | orderBy: 'deckname'">
-				<div class="panel-heading">
-					<h3 class="panel-title">{{deck.deckname}}</h3>
-				</div>
-				<div class="panel-body">
-					{{getDeckList(deck.cards)}}
-				</div>
-				<div class="panel-footer">Cards: {{getTotal(deck.cards)}}</div>
-			</div>
 			<tr ng-repeat="deck in decks | orderBy: 'deckname'">
 				<td>
-					{{deck.deckname}}
+					<div class="panel panel-default invMan__deck-panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">{{deck.deckname}}</h3>
+					</div>
+					<div class="panel-body">
+						{{getDeckList(deck.cards)}}
+					</div>
+					<div class="panel-footer">Cards: {{getTotal(deck.cards)}}</div>
+					</div>
 					<button class="btn"
 						ng-click="delDeck(deck)">
 						Delete Deck
@@ -150,6 +137,18 @@
 				<td class="invMan__cards" 
 					ng-repeat="card in deck.cards">
 					<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.multiverseid}}&type=card" width="224" height="320" alt="{{card.name}}"/>
+					<button class="btn"
+						ng-click="addCardToDeck(card, deck)">
+						Add Card
+					</button>
+					<button class="btn"
+						 ng-click="subtractCardFromDeck(card, deck)">
+						Subtract Card
+					</button>
+					<button class="btn"
+						 ng-click="delCardFromDeck(card, deck)">
+						Delete Card
+					</button>
 				</td>
 			</tr>
 			<tr>
