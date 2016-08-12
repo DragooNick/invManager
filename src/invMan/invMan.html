@@ -1,5 +1,4 @@
 <div class="container">
-
     <nav class="navbar navbar-inverse">
   		<div class="container-fluid">
     		<div class="navbar-header">
@@ -8,7 +7,7 @@
     	<ul class="nav navbar-nav">
       		<li><a ui-sref="login">Home</a></li>
       		<li class="active"><a ui-sref="invMan">Inventory Manager</a></li>
-      		<li><a ui-sref="">Administration</a></li>
+      		<li><a ui-sref="admin">Administration</a></li>
       		<li><a ui-sref="about">About</a></li>
     	</ul>
     	<ul class="nav navbar-nav navbar-right">
@@ -18,7 +17,17 @@
   		</div>
 	</nav>
 
-	<h2>Card Search</h2>
+	<uib-tabset active="activeJustified" justified="true">
+		<uib-tab index="0" heading="Card Search">
+
+		</uib-tab>
+		<uib-tab index="1" heading="Inventory">
+
+		</uib-tab>
+		<uib-tab index="2" heading="Decks">
+		</uib-tab>
+	</uib-tabset>
+		<h2>Card Search</h2>
 	<div ng-model="cards">
 		<form ng-submit="searchCard()">
 			<input type="text"
@@ -27,7 +36,7 @@
 				placeholder="Card Name" 
 				class="form-control"/>
 			<button class="btn">
-				Search Card
+				<span class="glyphicon glyphicon-search"></span> Search Card {{cardSearch.card}}
 			</button>
 		</form>
 
@@ -41,27 +50,31 @@
 			</tr>
 			<tr>
 				<td ng-repeat="card in cardsFound">
-					<button class="btn"
+					<button class="btn" 
+						ng-click="getDecknames(decks)">
+						Get Decknames
+					</button>
+					{{getDecknames(decks)}}
+					<button class="btn btn-success"
 						ng-click="addCard(card.cards[0])">
-						Add Card to Inventory
+						<span class="glyphicon glyphicon-plus"></span> Add Card
 					</button>
 					<select class="selectpicker"
-						ng-model="deckname">
-						<optgroup ng-repeat="deck in decks | orderBy: 'format'"
-					  		label="{{deck.format}}">
-							<option>{{deck.deckname}}</option>
+						ng-model="decknames">
+						<optgroup ng-repeat="(key, value) in decknames | orderBy: 'format' | groupBy: 'format' "
+					  		label="{{key}}">
+					  		<option ng-repeat="deck in value | orderBy: 'deckname'">{{deck.deckname}}</option>
 						</optgroup>
 					</select>
 					<button class="btn"
 						ng-click="addCardToDeck(card.cards[0], {'deckname': deckname})">
-						Add Card to selected Deck
+						<span class="glyphicon glyphicon-plus"></span> Add Card
 					</button>
 				</td>
 			</tr>
 		</table>
 	</div>
-
-	<h2>Inventory</h2>
+			<h2>Inventory</h2>
 	<div ng-model="inventory">
 		<table class="table">
 			<tr>
@@ -83,35 +96,34 @@
 					<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.multiverseid}}&type=card" width="224" height="320" alt="{{card.name}}"/>
 				</td>
 				<td>
-					<button class="btn"
+					<button class="btn btn-success"
 						ng-click="addCard(card)">
-						Add Card
+						<span class="glyphicon glyphicon-plus"></span> Add Card
 					</button>
 					<button class="btn"
 						 ng-click="subtractCard(card)">
-						Subtract Card
+						<span class="glyphicon glyphicon-minus"></span> Subtract Card
 					</button>
-					<button class="btn"
+					<button class="btn btn-danger"
 						 ng-click="delCard(card)">
-						Delete Card
+						<span class="glyphicon glyphicon-remove"></span> Delete Card
 					</button>
 					<select class="selectpicker"
-						ng-model="deckname">
-						<optgroup ng-repeat="deck in decks | orderBy: 'format'"
-					  		label="{{deck.format}}">
-							<option>{{deck.deckname}}</option>
+						ng-model="decknames">
+						<optgroup ng-repeat="(key, value) in decknames | orderBy: 'format' | groupBy: 'format' "
+					  		label="{{key}}">
+					  		<option ng-repeat="deck in value | orderBy: 'deckname'">{{deck.deckname}}</option>
 						</optgroup>
 					</select>
-					<button class="btn"
-						ng-click="addCardToDeck(card, deckname)">
-						Add Card to selected Deck
+					<button class="btn btn-success"
+						ng-click="addCardToDeck(card, deck)">
+						<span class="glyphicon glyphicon-plus"></span> Add Card
 					</button>
 				</td>
 			</tr>
 		</table>
 	</div>
-
-	<h2>Decks</h2>
+			<h2>Decks</h2>
 	<div ng-model="decks">
 		<table class="table">
 			<tr>
@@ -129,44 +141,55 @@
 					</div>
 					<div class="panel-footer">Cards: {{getTotal(deck.cards)}}</div>
 					</div>
-					<button class="btn"
+					<button class="btn btn-danger"
 						ng-click="delDeck(deck)">
-						Delete Deck
+						<span class="glyphicon glyphicon-remove"></span> Delete Deck
 					</button>
 				</td>
 				<td class="invMan__cards" 
 					ng-repeat="card in deck.cards">
 					<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.multiverseid}}&type=card" width="224" height="320" alt="{{card.name}}"/>
-					<button class="btn"
+					<button class="btn btn-success"
 						ng-click="addCardToDeck(card, deck)">
-						Add Card
+						<span class="glyphicon glyphicon-plus"></span> Add Card
 					</button>
 					<button class="btn"
 						 ng-click="subtractCardFromDeck(card, deck)">
-						Subtract Card
+						<span class="glyphicon glyphicon-minus"></span> Subtract Card
 					</button>
-					<button class="btn"
+					<button class="btn btn-danger"
 						 ng-click="delCardFromDeck(card, deck)">
-						Delete Card
+						<span class="glyphicon glyphicon-remove"></span> Delete Card
 					</button>
 				</td>
 			</tr>
 			<tr>
 				<td>
-				<form ng-submit="addDeck(deckToAdd)">
-				<input type="Deckname"
+				<input type="text"
 					class="form-control invMan__deck-input" 
 					placeholder="Deck Name"
 					ng-model="deckToAdd">
-				<button class="btn">
-					Add Deck
-				</button>
 				</form>
-				</td>
-				<td>
-					no cards
+				<uib-tabset>
+				<uib-tab index="0" heading="Type List">
+					<textarea class="invMan__textarea">
+					</textarea>
+				</uib-tab>
+				<uib-tab index="1" heading="Upload List">
+					<input type="file" 
+						nv-file-select uploader="uploader" placeholder="Decklist" />
+                	<button ng-click="uploader.queue.item.upload()" 
+                		class="btn">
+                		Upload Deck
+                	</button>
+				</uib-tab>
+				</uib-tabset>
+				<button class="btn btn-success"
+					ng-click="addDeck(deckToAdd)">
+					<span class="glyphicon glyphicon-plus"></span> Add Deck
+				</button>
 				</td>
 			</tr>
 		</table>
-	</div>		
+	</div>	
 </div>

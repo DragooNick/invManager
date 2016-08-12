@@ -1,10 +1,21 @@
 import _ from 'lodash';
 
-export default function($scope, $http, invManFactory) {
+export default function($scope, $http, invManFactory, FileUploader) {
 
 	$scope.user = {
 		username : 'nick'
 	};
+
+	$scope.decknames = [];
+
+	$scope.getDecknames = decks => {
+		for(var i = 0; i < decks.length; i++) {
+			$scope.decknames[i] = JSON.parse('{"deckname": "' + decks[i].deckname + '", "format": "' + decks[i].format + '" }');
+		}
+		return;
+	};
+
+	$scope.uploader = new FileUploader();
 
 	$scope.inventory = [];
 

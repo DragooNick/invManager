@@ -1,6 +1,11 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
+
+import angularFileUpload from 'angular-file-upload';
+
 import uiBootstrap from 'angular-ui-bootstrap';
+import angularFilter from 'angular-filter/index';
+
 import todoFactory from 'factories/todo-factory';
 import invManFactory from 'factories/invMan-factory';
 import loginFactory from 'factories/login-factory';
@@ -10,7 +15,7 @@ import invController from 'invMan/invMan';
 import loginController from 'login/login';
 import adminController from 'admin/admin';
 
-const app = angular.module('app', [uiRouter, todoFactory.name, invManFactory.name, loginFactory.name, adminFactory.name, uiBootstrap]);
+const app = angular.module('app', [uiRouter, 'angularFileUpload', angularFilter, uiBootstrap, todoFactory.name, invManFactory.name, loginFactory.name, adminFactory.name]);
 
 app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
   $urlRouterProvider.otherwise('/');
@@ -39,7 +44,8 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
     .state('admin', {
       url: '/admin',
       template: require('admin/admin.html'),
-      controller: adminController
+      controller: adminController,
+      resolve: { loginCheck: checkAuth }
     })
     
     $locationProvider.html5Mode(true);
