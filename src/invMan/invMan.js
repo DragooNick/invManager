@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default function($scope, $http, invManFactory, FileUploader) {
+export default function($scope, $http, invManFactory) {
 
 	$scope.user = {
 		username : 'nick'
@@ -14,8 +14,6 @@ export default function($scope, $http, invManFactory, FileUploader) {
 		}
 		return;
 	};
-
-	$scope.uploader = new FileUploader();
 
 	$scope.inventory = [];
 

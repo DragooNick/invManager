@@ -36,7 +36,7 @@
 				placeholder="Card Name" 
 				class="form-control"/>
 			<button class="btn">
-				<span class="glyphicon glyphicon-search"></span> Search Card {{cardSearch.card}}
+				<span class="glyphicon glyphicon-search"></span> Search Card
 			</button>
 		</form>
 
@@ -176,12 +176,7 @@
 					</textarea>
 				</uib-tab>
 				<uib-tab index="1" heading="Upload List">
-					<input type="file" 
-						nv-file-select uploader="uploader" placeholder="Decklist" />
-                	<button ng-click="uploader.queue.item.upload()" 
-                		class="btn">
-                		Upload Deck
-                	</button>
+				
 				</uib-tab>
 				</uib-tabset>
 				<button class="btn btn-success"
