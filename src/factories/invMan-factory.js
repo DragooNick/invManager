@@ -93,6 +93,7 @@ const invManFactory = angular.module('app.invManFactory', [])
 
 	function parseUploadList($scope, uploadList) {
 		console.log('PARSEUPLOADLIST');
+		var importList = [];
 			console.log('uploadList');
 			console.log(uploadList);
 			var cards = _.split(uploadList, '\n');
@@ -126,10 +127,11 @@ const invManFactory = angular.module('app.invManFactory', [])
 				//			console.log(relDate);
 				//		}
 				//	});
-				}
-				$scope.importList.push(cardObj);
+				//}
+				importList.push(cardObj);
 			}
 			console.log($scope.importList);
+			importInventory($scope, importList);
 	}
 
 	function importInventory($scope, importList) {
@@ -139,7 +141,6 @@ const invManFactory = angular.module('app.invManFactory', [])
 			addCard($scope, importList[i]);
 		}
 		$scope.uploadList = [];
-		$scope.importList = [];
 		getInventory($scope);
 	}
 
