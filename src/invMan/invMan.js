@@ -8,6 +8,12 @@ export default function($scope, $http, invManFactory) {
 
 	$scope.decknames = [];
 
+	$scope.importList = [];
+
+	$scope.parseUploadList = _.partial(invManFactory.parseUploadList, $scope);
+
+	$scope.importInventory = _.partial(invManFactory.importInventory, $scope);
+
 	$scope.getDecknames = decks => {
 		for(var i = 0; i < decks.length; i++) {
 			$scope.decknames[i] = JSON.parse('{"deckname": "' + decks[i].deckname + '", "format": "' + decks[i].format + '" }');

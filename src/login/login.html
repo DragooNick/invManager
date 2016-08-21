@@ -1,23 +1,21 @@
-<div class="container">
-
-	<nav class="navbar navbar-inverse">
-  		<div class="container-fluid">
+<div class="invMan__page">
+    <nav class="navbar navbar-inverse">
+  		<div class="container">
     		<div class="navbar-header">
-      		<a class="navbar-brand" href="#">Inventory Manager</a>
+      		<a class="navbar-brand">Inventory Manager</a>
     	</div>
     	<ul class="nav navbar-nav">
       		<li class="active"><a ui-sref="login">Home</a></li>
       		<li><a ui-sref="invMan">Inventory Manager</a></li>
-      		<li><a ui-sref="admin">Administration</a></li>
-      		<li><a ui-sref="about">About</a></li>
+      		<li><a ui-sref="admin" ng-show="user == admin">Administration</a></li>
     	</ul>
     	<ul class="nav navbar-nav navbar-right">
-      		<li><a ui-sref="login"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
       		<li><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      		<li><a ui-sref="login"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
     	</ul>
   		</div>
 	</nav>
-
+<div class="container">
 	<div ng-model="user"
 		class="invMan__login">
 		<form>
@@ -85,4 +83,5 @@
 			Register
 		</button>
 	</form>
+</div>
 </div>

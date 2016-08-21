@@ -13,8 +13,18 @@ import invController from 'invMan/invMan';
 import loginController from 'login/login';
 import adminController from 'admin/admin';
 
-const app = angular.module('app', [uiRouter, angularFilter, uiBootstrap, todoFactory.name, invManFactory.name, loginFactory.name, adminFactory.name]);
+//Dependencies
+const app = angular.module('app', [
+  uiRouter, 
+  angularFilter, 
+  uiBootstrap, 
+  todoFactory.name, 
+  invManFactory.name, 
+  loginFactory.name, 
+  adminFactory.name
+]);
 
+//Routing Config
 app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
   $urlRouterProvider.otherwise('/');
   
@@ -43,12 +53,13 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
       url: '/admin',
       template: require('admin/admin.html'),
       controller: adminController,
-      resolve: { loginCheck: checkAuth }
+      //resolve: { loginCheck: checkAuth }
     })
     
     $locationProvider.html5Mode(true);
 });
 
+//AUTH check
 var checkAuth = function checkAuth(req, res, next) {
   console.log('checkLogin');
   if (req.isAuthenticated()) {

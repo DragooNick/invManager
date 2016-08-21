@@ -13,11 +13,12 @@ const invManFactory = angular.module('app.invManFactory', [])
 		});
 	}
 
-	function searchCard($scope) {
-		console.log({"cards.name": $scope.cardSearch.card });
+	function searchCard($scope, cardToSearch) {
+		console.log({"cards.name": cardToSearch });
 		$http.post('/invMan/cardSearch', {
-			name : $scope.cardSearch.card
+			name : cardToSearch
 		}).success(response => {
+			console.log('CARDSFOUND RESPONSE');
 			console.log(response);
 			$scope.cardsFound = response;
 		});
@@ -25,6 +26,9 @@ const invManFactory = angular.module('app.invManFactory', [])
 
 	function addCard($scope, cardToAdd) {
 		console.log('add Card: ' + cardToAdd.name);
+		if(cardToAdd.amount == null || cardToAdd.amount == '') {
+			cardToAdd.amount = 1;
+		}
 
 		$http.put('/invMan/addCard', {
 			username: $scope.user.username,
@@ -85,6 +89,58 @@ const invManFactory = angular.module('app.invManFactory', [])
 			$scope.inventory = response.cards;
 			console.log($scope.inventory);
 		});
+	}
+
+	function parseUploadList($scope, uploadList) {
+		console.log('PARSEUPLOADLIST');
+			console.log('uploadList');
+			console.log(uploadList);
+			var cards = _.split(uploadList, '\n');
+			console.log('cards');
+			console.log(cards);
+			for (var i = 0; i < cards.length; i++) {
+				var card = _.split(cards[i], ';');
+				console.log('card');
+				console.log(card);
+				//TODO REGEX
+				// card = _.toString(card);
+				// console.log('regex check');
+				// var regex = /^[0-9]*/g;
+				// var regCheck = card.match(regex);
+				// console.log(regCheck);
+				// if(/^[1-9]*[\s\D]*/g.test(card)) {
+				// 	console.log('regex tut');
+				// }
+				var cardObj = JSON.parse('{"amount": "' + card[0] + '", "name": "' + card[1] + '", "multiverseid": "' + card[2] + '" }');		
+				console.log('cardObj');
+				console.log(cardObj);
+				//TODO PROMISE
+				// if (cardObj.multiverseid == '') {
+				// 	searchCard($scope, cardObj.name).then($scope => {
+				//		cardObj.multiverseid = $scope.cardsFound[1].cards[0].multiverseid;
+				//		console.log(cardObj.name + ' multiverseid = ' + cardObj.multiverseid);
+				//		var relDate = new Date($scope.cardsFound.cards[0].releaseDate);
+				//		var date = new Date();
+				//		var today = date.getTime();
+				//		if (relDate < today) {
+				//			console.log(relDate);
+				//		}
+				//	});
+				}
+				$scope.importList.push(cardObj);
+			}
+			console.log($scope.importList);
+	}
+
+	function importInventory($scope, importList) {
+		console.log('IMPORTLIST');
+		console.log(importList);
+		for (var i = 0; i < importList.length; i++) {
+			addCard($scope, importList[i]);
+		}
+		$scope.uploadList = [];
+		$scope.importList = [];
+		getInventory($scope);
 	}
 
 	function addDeck($scope, deckToAdd) {
@@ -162,6 +218,8 @@ const invManFactory = angular.module('app.invManFactory', [])
 		subtractCard,
 		delCard,
 		getInventory,
+		parseUploadList,
+		importInventory,
 		addDeck,
 		getDecks,
 		delDeck,

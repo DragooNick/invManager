@@ -1,175 +1,189 @@
-<div class="container">
+<div class="invMan__page">
     <nav class="navbar navbar-inverse">
-  		<div class="container-fluid">
+  		<div class="container">
     		<div class="navbar-header">
-      		<a class="navbar-brand" href="#">Inventory Manager</a>
+      		<a class="navbar-brand">Inventory Manager</a>
     	</div>
     	<ul class="nav navbar-nav">
       		<li><a ui-sref="login">Home</a></li>
       		<li class="active"><a ui-sref="invMan">Inventory Manager</a></li>
-      		<li><a ui-sref="admin">Administration</a></li>
-      		<li><a ui-sref="about">About</a></li>
+      		<li><a ui-sref="admin" ng-show="user == admin">Administration</a></li>
     	</ul>
     	<ul class="nav navbar-nav navbar-right">
-      		<li><a ui-sref="login"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
       		<li><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      		<li><a ui-sref="login"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
     	</ul>
   		</div>
 	</nav>
 
-	<uib-tabset active="activeJustified" justified="true">
-		<uib-tab index="0" heading="Card Search">
+	<div class="container">
 
-		</uib-tab>
-		<uib-tab index="1" heading="Inventory">
-
-		</uib-tab>
-		<uib-tab index="2" heading="Decks">
-		</uib-tab>
-	</uib-tabset>
 		<h2>Card Search</h2>
 	<div ng-model="cards">
-		<form ng-submit="searchCard()">
+		<form ng-submit="searchCard(cardSearch.name)">
 			<input type="text"
-				ng-model="cardSearch.card"
+				ng-model="cardSearch.name"
 				uib-typeahead="card for card in cards | filter:$viewValue | limitTo:9" 
 				placeholder="Card Name" 
 				class="form-control"/>
-			<button class="btn">
+			<button class="btn btn-default">
 				<span class="glyphicon glyphicon-search"></span> Search Card
 			</button>
 		</form>
 
-		<table class="table">
-			<tr>
-				<td ng-repeat="card in cardsFound">
-					<div class="invMan__cards">
-						<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.cards[0].multiverseid}}&type=card" width="224" height="320" alt="{{card.cards[0].name}}"/>
+		<div class="container-fluid">
+			<div class="row">
+			<div ng-repeat="card in cardsFound">
+				<div class="clearfix" ng-if="$index % 3 == 0"></div>
+		    	<div class="col-lg-4">	
+					<img class="invMan__card" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.cards[0].multiverseid}}&type=card" alt="{{card.cards[0].name}}"/>
+					<div class="invMan__cards-overlay">
+						<h4>{{card.cards[0].name}}</h4>
+						<h5>Inventory</h5>
+						<button class="btn btn-success"
+							ng-click="addCard(card.cards[0])">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
+						<h5>Deck</h5>
+						<select class="selectpicker"
+							ng-model="decknames">
+							<optgroup ng-repeat="(key, value) in decknames | orderBy: 'format' | groupBy: 'format' "
+						  		label="{{key}}">
+						  		<option ng-repeat="deck in value | orderBy: 'deckname'">{{deck.deckname}}</option>
+							</optgroup>
+						</select>
+						<button class="btn btn-success"
+							ng-click="addCardToDeck(card.cards[0], {'deckname': deckname})">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
 					</div>
-				</td>
-			</tr>
-			<tr>
-				<td ng-repeat="card in cardsFound">
-					<button class="btn" 
-						ng-click="getDecknames(decks)">
-						Get Decknames
-					</button>
-					{{getDecknames(decks)}}
-					<button class="btn btn-success"
-						ng-click="addCard(card.cards[0])">
-						<span class="glyphicon glyphicon-plus"></span> Add Card
-					</button>
-					<select class="selectpicker"
-						ng-model="decknames">
-						<optgroup ng-repeat="(key, value) in decknames | orderBy: 'format' | groupBy: 'format' "
-					  		label="{{key}}">
-					  		<option ng-repeat="deck in value | orderBy: 'deckname'">{{deck.deckname}}</option>
-						</optgroup>
-					</select>
-					<button class="btn"
-						ng-click="addCardToDeck(card.cards[0], {'deckname': deckname})">
-						<span class="glyphicon glyphicon-plus"></span> Add Card
-					</button>
-				</td>
-			</tr>
-		</table>
-	</div>
+				</div>
+			</div>
+			</div>
+		</div>
+
+
 			<h2>Inventory</h2>
-	<div ng-model="inventory">
-		<table class="table">
-			<tr>
-				<th>
-					Amount
-				</th>
-				<th>
-					Total
-				</th>
-				<th>
-					{{getTotal(inventory)}}
-				</th>
-			</tr>
-			<tr ng-repeat="card in inventory | orderBy: 'name'">
-				<td>
-					{{card.amount}}
-				</td>
-				<td class="invMan__cards">
-					<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.multiverseid}}&type=card" width="224" height="320" alt="{{card.name}}"/>
-				</td>
-				<td>
-					<button class="btn btn-success"
-						ng-click="addCard(card)">
-						<span class="glyphicon glyphicon-plus"></span> Add Card
-					</button>
-					<button class="btn"
-						 ng-click="subtractCard(card)">
-						<span class="glyphicon glyphicon-minus"></span> Subtract Card
-					</button>
-					<button class="btn btn-danger"
-						 ng-click="delCard(card)">
-						<span class="glyphicon glyphicon-remove"></span> Delete Card
-					</button>
-					<select class="selectpicker"
-						ng-model="decknames">
-						<optgroup ng-repeat="(key, value) in decknames | orderBy: 'format' | groupBy: 'format' "
-					  		label="{{key}}">
-					  		<option ng-repeat="deck in value | orderBy: 'deckname'">{{deck.deckname}}</option>
-						</optgroup>
-					</select>
-					<button class="btn btn-success"
-						ng-click="addCardToDeck(card, deck)">
-						<span class="glyphicon glyphicon-plus"></span> Add Card
-					</button>
-				</td>
-			</tr>
-		</table>
+		Total Cards: {{getTotal(inventory)}}
+		Worth: {{getTotalWorth(inventory)}}
+	<div class="container-fluid"
+		ng-model="inventory">
+		<div class="row">
+		    <div ng-repeat="card in inventory | orderBy: 'name'">
+		        <div class="clearfix" ng-if="$index % 3 == 0"></div>
+		        <div class="col-lg-4">
+		            <img class="invMan__card" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.multiverseid}}&type=card" alt="{{card.name}}"/>
+					<div class="invMan__cards-overlay">
+						<h4>{{card.name}}</h4>
+						<h5>Inventory: {{card.amount}}</h5>
+						<button class="btn btn-success"
+							ng-click="addCard(card)">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
+						<button class="btn btn-primary"
+							 ng-click="subtractCard(card)">
+							<span class="glyphicon glyphicon-minus"></span>
+						</button>
+						<button class="btn btn-danger"
+							 ng-click="delCard(card)">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+						<h5>Deck</h5>
+						<select class="selectpicker"
+							ng-model="decknames">
+							<optgroup ng-repeat="(key, value) in decknames | orderBy: 'format' | groupBy: 'format' "
+						  		label="{{key}}">
+						  		<option ng-repeat="deck in value | orderBy: 'deckname'">{{deck.deckname}}</option>
+							</optgroup>
+						</select>
+						<button class="btn btn-success"
+							ng-click="addCardToDeck(card, deck)">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
+					</div>
+		        </div>
+		    </div>
+		</div>
+		<div class="form-group">
+ 			<label for="import"><h3>Import:</h3></label>
+  			<textarea class="form-control" 
+  				ng-model="uploadList"
+  				rows="5" 
+  				id="import" 
+  				placeholder="Type Cards here like: amount;name;id"></textarea>
+		</div>
+		<button class="btn btn-success"
+			ng-click="parseUploadList(uploadList)">
+			Parse Upload List
+		</button>
+		<button class="btn btn-default"
+			ng-click="importInventory(importList)">
+			Import Cards			
+		</button>
 	</div>
+
 			<h2>Decks</h2>
+			{{getDecknames(decks)}}
 	<div ng-model="decks">
-		<table class="table">
-			<tr>
-				<th>Deck Name</th>
-				<th>Cards</th>
-			</tr>
-			<tr ng-repeat="deck in decks | orderBy: 'deckname'">
-				<td>
-					<div class="panel panel-default invMan__deck-panel">
-					<div class="panel-heading">
+		
+	<div class="row" ng-repeat="deck in decks | orderBy: 'deckname'">
+		<div class="clearfix" ng-if="$index % 3 == 0"></div>
+			<div class="col-lg-4">
+				<div class="panel panel-default invMan__deck-panel">
+					<div class="panel-heading invMan__deck-panel-head">
 						<h3 class="panel-title">{{deck.deckname}}</h3>
 					</div>
-					<div class="panel-body">
-						{{getDeckList(deck.cards)}}
+					<div class="panel-body invMan__deck-panel-body">
+						<ul class="invMan__deck-stats">
+							<li>Color Identity: {{deck.colors}}</li>
+							<li>Format: {{deck.format}}</li>
+							<li>{{getDeckList(deck.cards)}}</li>
+							<li>Cards: {{getTotal(deck.cards)}}</li>
+							<li>Price: {{getTotalWorth(deck.cards)}}</li>
+						</ul>
 					</div>
-					<div class="panel-footer">Cards: {{getTotal(deck.cards)}}</div>
+					<div class="panel-footer invMan__deck-panel-foot">
+						<button class="btn btn-danger"
+							ng-click="delDeck(deck)">
+							<span class="glyphicon glyphicon-remove"></span> Delete Deck
+						</button>
 					</div>
-					<button class="btn btn-danger"
-						ng-click="delDeck(deck)">
-						<span class="glyphicon glyphicon-remove"></span> Delete Deck
-					</button>
-				</td>
-				<td class="invMan__cards" 
-					ng-repeat="card in deck.cards">
-					<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.multiverseid}}&type=card" width="224" height="320" alt="{{card.name}}"/>
+				</div>
+			</div>
+		<div ng-repeat="card in deck.cards">
+			<div class="col-lg-4">
+				<img class="invMan__card" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{card.multiverseid}}&type=card" alt="{{card.name}}"/>
+				<div class="invMan__cards-overlay">
+					<h4>{{card.name}}</h4>
+					<h5>Deck: {{card.amount}}</h5>
 					<button class="btn btn-success"
 						ng-click="addCardToDeck(card, deck)">
-						<span class="glyphicon glyphicon-plus"></span> Add Card
+						<span class="glyphicon glyphicon-plus"></span>
 					</button>
-					<button class="btn"
+					<button class="btn btn-primary"
 						 ng-click="subtractCardFromDeck(card, deck)">
-						<span class="glyphicon glyphicon-minus"></span> Subtract Card
+						<span class="glyphicon glyphicon-minus"></span>
 					</button>
 					<button class="btn btn-danger"
 						 ng-click="delCardFromDeck(card, deck)">
-						<span class="glyphicon glyphicon-remove"></span> Delete Card
+						<span class="glyphicon glyphicon-remove"></span>
 					</button>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				<input type="text"
-					class="form-control invMan__deck-input" 
-					placeholder="Deck Name"
-					ng-model="deckToAdd">
-				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+		<div class="panel panel-default invMan__deck-panel">
+			<div class="panel-heading invMan__deck-panel-head">
+				<h3 class="panel-title">
+					<form>
+						<input type="text"
+							class="form-control invMan__deck-input" 
+							placeholder="Deck Name"
+							ng-model="deckToAdd">
+					</form>
+				</h3>
+			</div>
+			<div class="panel-body invMan__deck-panel-body">
 				<uib-tabset>
 				<uib-tab index="0" heading="Type List">
 					<textarea class="invMan__textarea">
@@ -179,12 +193,13 @@
 				
 				</uib-tab>
 				</uib-tabset>
+			</div>
+			<div class="panel-footer invMan__deck-panel-foot">
 				<button class="btn btn-success"
 					ng-click="addDeck(deckToAdd)">
 					<span class="glyphicon glyphicon-plus"></span> Add Deck
 				</button>
-				</td>
-			</tr>
-		</table>
-	</div>	
+			</div>
+		</div>	
+	</div>
 </div>

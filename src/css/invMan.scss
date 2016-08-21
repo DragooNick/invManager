@@ -1,12 +1,51 @@
 .invMan {
 
+	&__page {
+		background-color: #C0C0C0;
+	}
+
 	&__login {
 		float: right;
 	    margin-top: 20px;
 	}
 
+	&__card {
+		width: 231px;
+		height: 330px;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
 	&__cards {
-		height: 332px;
+		position: relative;
+		padding:0 !important;
+		width: 231px;
+		height: 330px;
+	}
+
+	&__cards-overlay {
+		content: attr(data-content);
+	    position: absolute;
+	    width: 231px; 
+	    height: 100%;
+	    border-radius: 10px; 
+	    top: 0; 
+	    left: 75px;
+	    text-align: center;
+	    color: white;
+	    background: rgba(0,0,0,0.7);
+	    opacity: 0;
+	    transition: all 0.5s;
+	    -webkit-transition: all 0.5s;
+	}
+
+	&__cards-overlay:hover {
+		opacity:1;
+	}
+
+	&__deck-stats {
+	list-style-type: none;
 	}
 
 	&__deck-input {
@@ -14,16 +53,27 @@
 	}
 
 	&__deck-panel {
-		width: 234px;
-		height: 340px;
+	    border-radius: 10px; 
+		position: relative;
+		padding:0 !important;
+		width: 231px;
+		height: 330px;
+	}
+
+	&__deck-panel-head {
+	    border-radius: 9px 9px 0 0;
+	}
+
+	&__deck-panel-body {
+		height: 235px;
+	}
+
+	&__deck-panel-foot {
+	    border-radius: 0 0 9px 9px;
 	}
 
 	&__textarea {
-		height: 300px;
+
 	}
 
-}
-
-.panel-body {
-	height: 77%
 }

@@ -62,7 +62,7 @@ router.put('/addCard', function(req, res) {
 					signed: req.body.signed,
 					altered: req.body.altered,
 					multiverseid: req.body.multiverseid,
-					amount: 1
+					amount: req.body.amount
 				}}
 			}, function(err, results) {
 				if (err) { console.log("IF ERROR " + err); }
@@ -86,11 +86,11 @@ router.put('/addCard', function(req, res) {
 						"signed": req.body.signed
 					}
 				}
-			},{ $inc: { "cards.$.amount" : 1}}, function(err, results) {
+			},{ $inc: { "cards.$.amount" : req.body.amount}}, function(err, results) {
 				if (err) { console.log("ELSE ERROR " + err); }
 				console.log('Results of ELSELSELSELSELSELSE');
 				console.log(results);
-				res.send('Amount increased');
+				res.send('Amount increased by ' + req.body.amount);
 			} );
 		}
 	});
