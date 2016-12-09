@@ -19,7 +19,7 @@ const loginFactory = angular.module('app.loginFactory', [])
 	};
 
 	function register($scope, $rootScope) {
-		if($scope.user.password == $scope.user.password_confirmation) {	
+		if($scope.user.password == $scope.user.password_confirmation && $scope.user.username != null && $scope.user.email != null) {	
 			$http.post('/login/stuff/register', {
 				firstname: $scope.user.firstname,
 				lastname: $scope.user.lastname,
@@ -32,10 +32,10 @@ const loginFactory = angular.module('app.loginFactory', [])
 				console.log($rootScope.currentUser + ' in rootScope');
 			});
 		} else if ($scope.user.password != $scope.user.password_confirmation) {
-			alert('pw or email doesnt match');
+			alert('pw doesnt match');
 			return;
 		} else {
-			alert('pls fill all correct');
+			alert('pls fill out all required fields');
      		return;
 		}
 	};

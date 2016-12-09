@@ -17,7 +17,7 @@ router.post('/register', function(req, res) {
 		if(user) {
 			var oldUser = req.body;
 			console.log(req.body.username + ' already exists');
-			res.send(req.body.username + ' already exists registration failed');
+			res.send(req.body.username + ' already exists, registration failed');
 			return;
 		} else {
 			var newUser = new User(req.body);

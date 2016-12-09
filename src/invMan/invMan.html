@@ -7,7 +7,7 @@
     	<ul class="nav navbar-nav">
       		<li><a ui-sref="login">Home</a></li>
       		<li class="active"><a ui-sref="invMan">Inventory Manager</a></li>
-      		<li><a ui-sref="admin" ng-show="user == admin">Administration</a></li>
+      		<li><a ui-sref="admin" >Administration</a></li>
     	</ul>
     	<ul class="nav navbar-nav navbar-right">
       		<li><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -76,6 +76,11 @@
 					<div class="invMan__cards-overlay">
 						<h4>{{card.name}}</h4>
 						<h5>Inventory: {{card.amount}}</h5>
+						<h5>Condition: {{card.condition}}</h5>
+						<h5>Language: {{card.language}}</h5>
+						<h5>Foil: {{card.foil}}</h5>
+						<h5>Altered: {{card.altered}}</h5>
+						<h5>Signed: {{card.signed}}</h5>
 						<button class="btn btn-success"
 							ng-click="addCard(card)">
 							<span class="glyphicon glyphicon-plus"></span>

@@ -20,7 +20,8 @@ const adminFactory = angular.module('app.adminFactory', [])
 			var uniqJson = _.uniq(namesJson);
 			console.log(uniqJson.length);
 			console.log('for done');
-			saveNames($scope, uniqJson);
+			var orderJson = _.orderBy(uniqJson)
+			saveNames($scope, orderJson);
 		});
 	}
 
