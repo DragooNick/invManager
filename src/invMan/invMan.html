@@ -95,7 +95,7 @@
 						</button>
 						<h5>Deck</h5>
 						<select class="selectpicker"
-							ng-model="decknames">
+							ng-model="decknames.selected">
 							<optgroup ng-repeat="(key, value) in decknames | orderBy: 'format' | groupBy: 'format' "
 						  		label="{{key}}">
 						  		<option ng-repeat="deck in value | orderBy: 'deckname'">{{deck.deckname}}</option>
