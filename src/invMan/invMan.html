@@ -46,14 +46,14 @@
 						</button>
 						<h5>Deck</h5>
 						<select class="selectpicker"
-							ng-model="decknames">
+							ng-model="deckname.selected">
 							<optgroup ng-repeat="(key, value) in decknames | orderBy: 'format' | groupBy: 'format' "
 						  		label="{{key}}">
 						  		<option ng-repeat="deck in value | orderBy: 'deckname'">{{deck.deckname}}</option>
 							</optgroup>
 						</select>
 						<button class="btn btn-success"
-							ng-click="addCardToDeck(card.cards[0], {'deckname': deckname})">
+							ng-click="addCardToDeck(card.cards[0], deckname.selected)">
 							<span class="glyphicon glyphicon-plus"></span>
 						</button>
 					</div>
@@ -95,14 +95,14 @@
 						</button>
 						<h5>Deck</h5>
 						<select class="selectpicker"
-							ng-model="decknames.selected">
+							ng-model="deckname.selected">
 							<optgroup ng-repeat="(key, value) in decknames | orderBy: 'format' | groupBy: 'format' "
 						  		label="{{key}}">
 						  		<option ng-repeat="deck in value | orderBy: 'deckname'">{{deck.deckname}}</option>
 							</optgroup>
 						</select>
 						<button class="btn btn-success"
-							ng-click="addCardToDeck(card, deck)">
+							ng-click="addCardToDeck(card, deckname.selected)">
 							<span class="glyphicon glyphicon-plus"></span>
 						</button>
 					</div>

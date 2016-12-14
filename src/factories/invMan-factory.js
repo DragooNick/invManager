@@ -176,10 +176,10 @@ const invManFactory = angular.module('app.invManFactory', [])
 	}
 
 	function addCardToDeck($scope, cardToAdd, deck) {
-		console.log('add Card: ' + cardToAdd.name + ' to Deck: ' + deck.deckname);
+		console.log('add Card: ' + cardToAdd.name + ' to Deck: ' + deck);
 		$http.put('/invMan/addCardToDeck', {
 			username: $scope.user.username,
-			deckname: deck.deckname,
+			deckname: deck,
 			name: cardToAdd.name,
 			language: 'en',
 			condition: 'nm',
